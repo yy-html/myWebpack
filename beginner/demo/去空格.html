@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+			//去掉字符串中所有空格 不改变原数组 原字符串赋给b数组再转回字符串
+			var a = '(  a  b  c  d  )';
+			var b = [];
+			for(var i = 0;i < a.length;i ++){
+				if(a.charAt(i) != ' '){
+					b.push(a.charAt(i));
+				}
+			}
+			b = b.join('');
+			alert(b);
+			
+			
+			//去掉字符串中所有空格 改变原数组 转数组删除再转回
+			var a = '(  a  b  c  d  )';
+			a = a.split('');
+			for(var i = 0;i < a.length;i ++){
+				if(a[i] == ' '){
+					a.splice(i,1);
+					i --;
+				}
+				
+			}
+			a = a.join('');
+			console.log(a);
+			
+			//去掉字符串中所有空格 replace
+			var a = '(  a  b  c  d  )';
+			for(var i = 0,le = a.length;i < le;i ++){
+				a = a.replace(' ','');
+			}
+			alert(a);
+			
+			
+			//去除字符串左边和右边的空格 改变原数组 先转数组再删除 再转回来
+			var a = '(  a  b  c  d  )';
+			a = a.split('');
+			for(var i = 1;i < a.length;i ++){
+				if(a[i] == ' '){
+					a.splice(i,1);
+					i --;
+				}else{
+					break;
+				}
+			}
+			for(var i = a.length - 2;i >= 0;i --){
+				if(a[i] == ' '){
+					a.splice(i,1);
+				}else{
+					break;
+				}
+			}
+			a = a.join('');
+			console.log(a)
+			
+			//逆序输出数组
+			var a = [1,2,3,4,5,6,7];
+			var b = [];
+			for(var i = a.length - 1;i >= 0;i --){
+				b.push(a[i]);
+			}
+			console.log(b)
+			
+			// 数组新方法index
+		</script>
+	</body>
+</html>

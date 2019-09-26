@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		/**{
+			margin:0;
+			padding:0;
+		}*/
+		html,body{
+			height: 100%;
+			width: 100%;
+		}
+		.cart{
+			width: 300px;
+			margin: 0 auto;
+			text-align: center;
+		}
+			.cart h1{
+				position:absolute;
+				top:0;
+				right:10%;
+				cursor: pointer
+			}
+			h2{
+				position:absolute;
+				top:100px;
+				right:12.5%;
+				cursor: pointer
+			}
+			.cart .box1{
+				background: #eee;
+			}
+			.cart .box2{
+				background: pink;
+			}
+			.cart .box3{
+				background: #999;
+			}
+			.buy{
+				
+			}
+				.buy .table{
+					width: 500px;
+					margin: 0 auto;
+					text-align: center;
+					border: 1px #000 solid
+				}
+				.buy h1{
+					position:absolute;
+					top:0;
+					right:10%;
+					cursor: pointer
+				}
+				.buy .num{
+					width: 30px;
+				}
+				.buy .up,.buy .down{
+					cursor: pointer
+				}
+	</style>
+	<body>
+		
+		<div class='container'>
+			<div class='cart'>
+				<div class='box1' good-id='y1'>
+					<p>香蕉</p>
+					<span>30 ¥</span>
+					<button>add to cart</button>
+				</div>
+				<div class='box2' good-id='y2'>
+					<p>西瓜</p>
+					<span>40 ¥</span>
+					<button>add to cart</button>
+				</div>
+				<div class='box3' good-id='y3'>
+					<p>芒果</p>
+					<span>50 ¥</span>
+					<button>add to cart</button>
+				</div>
+				<h1>to buy（0）</h1>
+				<h2>clean cart</h2>
+			</div>
+		</div>
+		
+		
+		<script src='./js/jquery-1.11.3.js'></script>
+		<script src='./js/jquery.cookie.js'></script>
+		<script>
+
+			$(function(){
+				
+//cart
+				cartNum()
+				
+				$('.cart button').each(function(){
+					$(this).click(function(){
+						
+						//获取信息
+						var id = $(this).parent().attr('good-id')
+						var color = $(this).parent().css('background-color')
+						var name = $(this).siblings('p').html()
+						var price = $(this).siblings('span').html()
+						var cookieObj = $.cookie('cart') ? JSON.parse($.cookie('cart')) : {}
+						//cookie样式
+//						{
+//							cart: {
+//								y1: {
+//									name,
+//									color,
+//									price,
+//									num
+//								},
+//								y2: {
+//									name,
+//									color,
+//									price
+//									num
+//								}
+//							} 	
+//						}
+						//判断该商品是否存在于购物车
+						if( !(id in cookieObj) ){
+							cookieObj[id] = {
+								color,
+								name,
+								price,
+								num: 1
+							}
+						}else{
+							cookieObj[id].num += 1
+						}
+						//写入cookie
+						$.cookie('cart',JSON.stringify(cookieObj),{expires: 7, path: '/'})
+						
+
+						//取出购物车中的数字 ; 或者直接调用cartNum();（效率低）
+						var str = $('.cart h1').html()
+						var re = /(\d+)/
+						var total = Number(str.match(re)[1])
+						//重新赋值
+						$('.cart h1').html('to buy（' + ++total + '）')
+					})
+				})
+				
+				//清除cookie
+				$('.cart h2').click(function(){
+					$.cookie('cart','',{expires: 0, path: '/'})
+					cartNum()
+				})
+				
+				//to cart
+				function cartNum(){
+					if( $.cookie('cart') ){
+						var cookieObj = JSON.parse($.cookie('cart'))
+						var total = 0
+						for(let i in cookieObj){
+							total += parseInt(cookieObj[i].num)
+						}
+					}
+					total == undefined ? total = 0 : null
+					$('.cart h1').html('to buy（' + total + '）')
+				}
+				
+//	buy
+//cookie buy思路：先获取cookie字符串 转成对象进行操作 再重新存入 最后页面重新获取cookie数据
+				//to cart
+				$('.cart h1').click(function(){
+					buy()
+				})
+				
+				function buy(){
+					
+					$('.cart').hide(100)
+					
+					var str = `
+						<div class='buy'>
+							<table class='table'>
+								<tr>
+									<th>color</th>
+									<th>name</th>
+									<th>price</th>
+									<th>number</th>
+									<th>total</th>
+									<th>do</th>
+								</tr>
+							</table>
+							<h1>to cart(0 ¥)</h1>
+						</div>
+					`
+					$('.container').append(str)
+					
+					var cookieObj = $.cookie('cart') ? JSON.parse($.cookie('cart')) : {}
+					
+					if(!$.cookie('cart') || $.cookie('cart') == '{}'){
+						$('.table').html(nothing())
+					}else{
+						for(var i in cookieObj){
+							var str = `
+								<tr good-id='${i}'>
+									<td style='background:${cookieObj[i].color}'></td>
+									<td>${cookieObj[i].name}</td>
+									<td>${cookieObj[i].price}</td>
+									<td>
+										<button class='down'>&nbsp;&nbsp;-&nbsp;&nbsp;</button>
+										<input class='num' type="text" value='${parseInt(cookieObj[i].num)}' />
+										<button class='up'>&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+									</td>
+									<td class='total'>${parseInt(cookieObj[i].num) * parseInt(cookieObj[i].price)}&nbsp;¥</td>
+									<td><a href="#" class='delete'>删除</a></td>
+								</tr>
+							`
+							$('.table').append(str)
+						}
+						$('.table').append('<h2>clean cart</h2>')
+					}
+					
+					//删除按钮
+					$('.delete').each(function(){
+						$(this).click(function(){
+							var id = $(this).parents('tr').remove().attr('good-id')
+							var cookieObj = $.cookie('cart') ? JSON.parse($.cookie('cart')) : {}
+							delete cookieObj[id]
+							$.cookie('cart',JSON.stringify(cookieObj),{expires: 7, path: '/'})
+							if(!$.cookie('cart') || $.cookie('cart') == '{}'){
+								$('.table').html(nothing())
+							}
+							buyNum()
+						})
+					})
+					
+					//to buy
+					$('.buy h1').click(function(){
+						$('.buy').hide(100)
+						$('.cart').show(100)
+						cartNum()
+					})
+					
+					//加减按钮
+					$('.buy .up').each(function(){
+						$(this).click(function(){
+							var id = $(this).parent().parent().attr('good-id')
+							var cookieObj = $.cookie('cart') ? JSON.parse($.cookie('cart')) : {}
+							var num = ++ cookieObj[id].num
+							$(this).siblings('.num').val(num)
+							$(this).parent().next().html(num * parseInt(cookieObj[id].price) + '&nbsp;¥')
+							$.cookie('cart',JSON.stringify(cookieObj),{expires: 7, path: '/'})
+							buyNum()
+						})
+					})
+					$('.buy .down').each(function(){
+						$(this).click(function(){
+							var id = $(this).parent().parent().attr('good-id')
+							var cookieObj = $.cookie('cart') ? JSON.parse($.cookie('cart')) : {}
+							var num = -- cookieObj[id].num
+							if(num < 1){
+								return
+							}
+							$(this).siblings('.num').val(num)
+							$(this).parent().next().html(num * parseInt(cookieObj[id].price) + '&nbsp;¥')
+							$.cookie('cart',JSON.stringify(cookieObj),{expires: 7, path: '/'})
+							buyNum()
+						})
+					})
+					
+					//input
+					$('.buy .num').change(function(){
+						var id = $(this).parent().parent().attr('good-id')
+						var cookieObj = $.cookie('cart') ? JSON.parse($.cookie('cart')) : {}
+						if(!isNaN($(this).val()) && $(this).val() > 0){
+							cookieObj[id].num = parseInt($(this).val())
+						}else{
+							cookieObj[id].num = 1
+							$(this).val(1)
+						}
+							
+						
+						$(this).parent().next().html(parseInt(cookieObj[id].num) * parseInt(cookieObj[id].price) + '&nbsp;¥')
+						$.cookie('cart',JSON.stringify(cookieObj),{expires: 7, path: '/'})
+						buyNum()
+					})
+					
+					//清除cookie
+					$('.buy h2').click(function(){
+						$.cookie('cart','',{expires: 0, path: '/'})
+						console.log($.cookie('cart'))
+						$('.table').html(nothing())
+						buyNum()
+					})
+					
+					//to car
+					function buyNum(){
+						if($.cookie('cart')){
+							var cookieObj = JSON.parse($.cookie('cart'))
+							var total = 0
+							for(var i in cookieObj){
+								total += parseInt(cookieObj[i].price) * parseInt(cookieObj[i].num)
+							}
+						}
+						total == undefined ? total = 0 : null
+						$('.buy h1').html('to cart（' + total + ' ¥）')
+					}
+					
+					buyNum()
+					
+					//noting
+					function nothing(){
+						var str = `
+							<tr>
+								<td><h3>&nbsp;&nbsp;noting!</h3></td>
+							</tr>
+						` 
+						return str
+					}
+				}
+			})
+			
+			
+			
+			
+		</script>
+	</body>
+</html>

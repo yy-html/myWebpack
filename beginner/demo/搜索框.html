@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			li{
+				list-style:none;
+				padding-left:10px;
+				padding-top:2px;
+				padding-bottom:2px;
+			}
+			div{
+				width:600px;
+				margin:20% auto;
+			}
+			#text{
+				width:500px;
+				height:35px;
+			}
+			button{
+				height:40px;
+				width:55px;
+			}
+			ul{
+				cursor: default;		/*鼠标指针样式*/
+				display:none;
+				width:500px;
+				border:1px solid #999;
+				border-top:none;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<input type='text' id='text'><button>🔍</button><br />
+			<ul></ul>
+		</div>
+		<script>
+			var oText = document.getElementById('text');
+			var oUl = document.querySelector('ul');
+			oText.onkeyup = function(){
+				show()
+			}
+			oText.onfocus = function(){	//搜索框的得焦事件
+				show()
+			}
+			document.onclick = function(){	//页面点击事件（搜索框的失焦）
+				oUl.style.display = 'none';
+			}
+			oText.onclick = function(evt){	//搜索框的点击事件（页面事件包括了搜索框，点击搜索框让ul显示）
+				var e = evt || window.event;
+				e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; 	//阻止事件冒泡，防止触发页面点击事件
+				oUl.style.display = 'block';
+			}
+
+			function show(){
+				oUl.style.display = 'block';	//键盘抬起 ul显示
+				oUl.innerHTML = ''; 	//键盘抬起首先清空一下上一次ul里获取的内容
+				var oSc = document.createElement('script');	//生成一个script标签，利用script标签的src属性来实现跨域获取数据
+				oSc.src = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + oText.value + '&cb=fn';	//设置获取数据的地址:所输入的内容；回调函数
+				document.querySelector('body').appendChild(oSc);
+			}
+			function fn(data){	//返回的数据是一个对象，需要的数据是对象里的属性，属性值是一个数组
+//				console.log(data);   = {..,..,s:[]}
+				for(var i = 0,length = data.s.length;i < length;i ++){
+					var oLi = document.createElement('li');
+					oLi.innerHTML = data.s[i];
+					oUl.appendChild(oLi);
+					// li 的事件；
+					oUl.onmouseover = function(evt){
+						var e = evt || window.event;
+						var target = e.target || e.srcElement;
+						if(target.nodeName.toUpperCase() == 'LI'){
+							target.style.background = '#e3e1e1';
+						}
+					}
+					oUl.onmouseout = function(evt){
+						var e = evt || window.event;
+						var target = e.target || e.srcElement;
+						target.style.background = '';
+					}
+					oUl.onclick = function(evt){
+						var e = evt || window.event;
+						var target = e.target || e.srcElement;
+						oText.value = '';
+						oText.value = target.innerText;
+						oUl.style.display = 'none';
+					}
+				}
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>

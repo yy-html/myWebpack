@@ -1,0 +1,15 @@
+*{
+    margin:0;
+    padding:0;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+@mixin whb($w,$h,$b:rgba(255,255,255,0)){
+    width:$w;
+    height:$h;
+    background:$b;
+}

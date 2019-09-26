@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			table{border-collapse:collapse;}
+			td{border:1px solid #000;}
+			a{color:#999;}
+		</style>
+	</head>
+	<body>
+		<table>
+			<tr><td>商品名</td><td>价格</td><td>操作</td></tr>
+			<tr><td><input type='hidden' value='1'>AirPods</td><td>1299</td><td><a href='#'>购买</a></td></tr>
+			<tr><td><input type='hidden' value='2'>iphoneX</td><td>8299</td><td><a href='#'>购买</a></td></tr>
+			<tr><td><input type='hidden' value='3'>MackBookPro</td><td>15999</td><td><a href='#'>购买</a></td></tr>
+		</table>
+		<button id='btn'>购物车</button>
+		<script>
+			var btn = document.getElementById('btn'),
+				a = document.getElementsByTagName('a');
+			btn.onclick = function(){
+				location.href = '购物车1.html';
+			}
+			for(var i = 0,length = a.length;i < length;i ++){
+				a[i].num = 0;
+				a[i].onclick = function(){
+					var id = this.parentNode.parentNode.firstChild.firstChild.value;
+					var name = this.parentNode.parentNode.firstChild.lastChild.nodeValue;
+					var price = this.parentNode.previousElementSibling.innerHTML;
+					this.num ++;
+					var date = new Date();
+					date.setDate(date.getDate() + 5);
+					//{"id":"id","name":"name","price":"price","num":"this.num"}
+					//'{"id":" '+ id +' ","name":" '+ name +' ","price":" '+ price +' ","num":" '+ this.num +' "}'
+					var cookieValue = '{"id":" '+ id +' ","name":" '+ name +' ","price":" '+ price +' ","num":" '+ this.num +' "}';
+					document.cookie = 'product:' + id + '=' + cookieValue + ';path=/;expires=' + date;
+				}
+			}
+		</script>
+	</body>
+</html>

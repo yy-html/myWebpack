@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+	<script>
+		//统计每个字符出现的次数，结果显示a2b1c2a1c1b3e1，然后去掉重复的字符，结果显示abce
+		var a = prompt('word');
+		var vl = '';
+		var qc = '';
+		var qc2 = [];
+		for(var i = 0,le = a.length;i < le;){
+			var x = 1;
+			for(var j = i + 1;j < le;j ++){
+				if(a.charAt(i) == a.charAt(j)){
+					x ++;
+				}else{
+					break;
+				}
+			}
+			vl += a.charAt(i) + '' + x;
+			qc += a.charAt(i);
+			i = j;
+		}
+		
+		for(var i = 0,le2 = qc.length;i < le2;i ++){
+			if(qc2.indexOf(qc.charAt(i)) == -1){
+				qc2.push(qc.charAt(i));
+			}
+		}
+		qc2 = qc2.join('');
+		alert(qc2);
+		alert(vl);
+		
+		
+		//判断字符串或数组中出现最多的字符并记录其次数
+			var str = 'hkajfahfauhtasaabua';
+			var arr = str.split('');
+			var max = 0;
+			for(var i = 0,len = arr.length;i < len;i ++){
+				var maxnum = 0;
+				for(var j = 0,len = arr.length;j < len;j ++){
+					if(arr[i] == arr[j]){
+						maxnum ++;
+					}
+				}
+				if(i >= 1 && maxnum > max){
+					var maxstr = arr[i];
+					var max = maxnum;
+				}
+			}
+			alert(maxstr);
+			alert(max);
+	</script>	
+	</body>
+</html>

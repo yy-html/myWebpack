@@ -1,0 +1,56 @@
+@import '@/lib/reset.scss';
+
+.ab{
+    position: absolute;
+}
+.animate{
+    @include rect(100%,100%);
+    .swiper-container {
+        @include rect(100%,100%);
+        .swiper-slide{
+            &:nth-child(1){
+                @include background-color(#3E88F1);
+                .indexBuilding{
+                    bottom: 0;
+                    img{
+                        @include rect(100%,auto);
+                    }
+                }
+                .indexCloud{
+                    top: 6%;
+                    left: 3%;
+                    img{
+                        @include rect(94%,auto);
+                    }
+                }
+                .indexElements{
+                    top: 6%;
+                    img{
+                        @include rect(100%,auto);
+                    }
+                }
+                .indexTxt{
+                    top: 10%;
+                    left: 15%;
+                    img{
+                        @include rect(80%,auto);
+                    }
+                }
+                .indexFlight{
+                    top: 38%;
+                    left: 6%;
+                    img{
+                        @include rect(94%,auto);
+                    }
+                }
+            }
+            &:nth-child(2){
+                
+            }
+            &:nth-child(3){
+                
+            }
+        }
+        
+    }
+}

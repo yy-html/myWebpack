@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>copyObject</title>
+    </head>
+    <body>
+        <script>
+            const arr = [{a:1},{b:2},{c:3}]
+            let obj = {}
+            // Object.assign()
+            for(let i = 0;i < arr.length;i ++){
+                obj = Object.assign(obj,arr[i])
+            }
+            //拓展运算符
+            for(let i = 0;i < arr.length;i ++){
+                obj = {...obj,...arr[i]}
+            }
+            //Object.keys()
+            for(let i = 0;i < arr.length;i ++){
+                const key = Object.keys(arr[i])[0]
+                obj[key] = arr[i][key]
+            }
+            //reduce()
+            const obj2 = arr.reduce( (prev,next) => {
+                const key = Object.keys(next)[0]
+                prev[key] = next[key]
+                return prev
+            },{})
+            console.log(obj2)//{a: 1, b: 2, c: 3}
+
+            //query func
+            const str = '?id=1&name=yy&age=18'
+            function fn(str){
+                let obj = {}
+                const newStr = str.split('?')[1].split('&')
+                for(let i = 0;i < newStr.length;i ++){
+                    const tem = newStr[i].split('=')
+                    obj[tem[0]] = tem[1]
+                }
+                return obj
+            }
+            console.log(fn(str))
+        </script>
+    </body>
+</html>

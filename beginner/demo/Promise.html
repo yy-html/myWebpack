@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		</style>
+	</head>
+	<body>
+		<script>
+			function ajax(url,Fnon){
+			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');	//1.创建Ajax对象（可拓展超文本传输请求）
+			xhr.open('GET',url,true);	//2.连接服务器
+			xhr.send();					//3.发送请求
+			xhr.onreadystatechange = function(){		//4.等待服务器响应（Ajax准备情况改变事件）
+				if(xhr.readyState === 4 && xhr.status === 200){
+							Fnon(xhr.responseText);		//Ajax返回（回应）内容
+					}
+				}
+			}
+			function fn(){
+				var p = new Promise(function(resolve,reject){
+					ajax('1.txt',function(ajax){
+						document.documentElement.innerHTML += ajax;
+						resolve();
+					});
+				}).then(function(){
+					return new Promise(function(resolve,reject){
+						ajax('2.txt',function(ajax){
+							document.documentElement.innerHTML += ajax;
+							resolve();
+						});
+					});
+				}).then(function(){
+					return new Promise(function(resolve,reject){
+						ajax('3.txt',function(ajax){
+							document.documentElement.innerHTML += ajax;
+							resolve();
+						});
+					});
+				}).then(function(){
+					ajax('4.txt',function(ajax){
+						document.documentElement.innerHTML += ajax;
+					});
+				});
+			}
+			fn();
+
+			
+			function fn(n){
+				var p = new Promise(function(resolve,reject){
+					if(n){
+						resolve();
+					}else{
+						reject();
+					}
+				})
+				return p;
+			}
+			var op = fn(1);
+			op.then(function(){
+				alert(1);
+			}).catch(function(){
+				alert(3);
+			});
+			
+			
+			
+			
+			function fn(){
+				var p = new Promise(function(resolve,reject){
+					ajax('1.txt',function(ajax){
+						document.documentElement.innerHTML += ajax;
+						resolve();
+					});
+				}).then(function(){
+					alert(1);
+				});
+			}
+			var op = fn();
+
+			function fn(n){
+				return new Promise(function(resolve,reject){
+					if(n){
+						resolve(n)
+					}else{
+						reject('error')
+					}
+				})
+			}
+			fn(1).then(function(n){
+				alert(n)
+			}).catch(function(n){
+				alert(n)
+			})
+
+			Promise.all([new Promise(function(resolve,reject){resolve(1)}),fn(1),fn(1)]).then(function(data){
+				console.log(data)
+			}).catch(function(data){
+				console.log(data)
+			})
+			
+			//扁平化数组
+			function fn(arr){
+				var b = arr.join(',').split(',');
+				var c = [];
+				for(var i = 0,length = b.length;i < length;i ++){
+					if(Number(b[i]) == b[i]){
+						c.push(Number(b[i]));
+					}else{
+						c.push(b[i]);
+					}
+				}
+				return c;
+			}
+			
+			var a = [1,2,['2a',3,['b']],'cde',4];
+			console.log(fn(a));
+			
+		</script>
+	</body>
+</html>

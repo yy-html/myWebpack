@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="css/dahuiji.css" />
+	</head>
+	<body>
+		<div id="body_main" class="main">
+			<ul id="options" class="options">
+				<li value="1">超级困难</li>
+				<li value="2">非常困难</li>
+				<li value="3">比较困难</li>
+				<li value="4">菜鸟训练</li>
+			</ul>
+		</div>
+		<script>
+			var box = document.getElementById('body_main');
+			var ul = document.getElementById('options');
+			//Bg
+			window.onload = function(){
+				new Bg();
+			}
+			function Bg(){
+				
+				this.i();
+			}
+			Bg.prototype = {
+				i : function(){
+					var that = this;
+					var oLis = ul.children;
+					
+					for(var i = 0,length = oLis.length;i < length;i ++){
+						oLis[i].num = i;
+						oLis[i].onclick = function(){
+							
+							this.parentNode.parentNode.removeChild(this.parentNode);
+							that.load();
+							that.type = this.num;
+						}
+					}
+				},
+				load : function(){
+					var that = this;
+					this.logo = document.createElement('div');
+					document.body.appendChild(this.logo);
+					this.logo.className = 'logo';
+					this.loading = document.createElement('div');
+					document.body.appendChild(this.loading);
+					this.loading.className = 'loading';
+					var index = 0;
+					this.timer = setInterval(function(){
+						that.loading.style.background = 'url(images/loading' + (++ index%3 + 1) + '.png) no-repeat';
+					},300)
+					var position = 0;
+					setInterval(function(){
+						box.style.backgroundPositionY = ++ position + 'px';
+					},50)
+					setTimeout(function(){
+						clearInterval(that.timer);
+						that.logo.parentNode.removeChild(that.logo);
+						that.loading.parentNode.removeChild(that.loading);
+						that.start();
+					},3000)
+				},
+				start : function(){
+					My.i();		//飞机出现
+					this.other();	//敌军出现
+					this.zd();	//子弹出现
+				},
+				other : function(){
+					setInterval(function(){
+						Math.random() > 0.3 ? new Other(1) : '';
+					},500)
+					setInterval(function(){
+						Math.random() > 0.7 ? new Other(2) : '';
+					},500)
+					setInterval(function(){
+						Math.random() > 0.8 ? new Other(3) : '';
+					},1000)
+				},
+				zd : function(){
+					var speed = 1000;
+					var that = this;
+					switch(this.type){
+						case 0 : speed = 800;break;
+						case 1 : speed = 500;break;
+						case 2 : speed = 150;break;
+						case 3 : speed = 50;break;
+					}
+					var id = 1;
+					setInterval(function(){
+						My.arr.push(new Zd(that.type,id));
+						id ++;
+						console.log(My.arr);
+					},speed)
+				}
+			}
+			//My
+			var My = {
+				obj : document.createElement('div'),
+				arr : [],
+				i : function(){
+					this.obj.className = 'my-warplain';
+					document.body.appendChild(this.obj);
+					this.obj.style.left = document.documentElement.clientWidth/2 - this.obj.offsetWidth/2 + 'px';
+					this.obj.style.top = box.clientHeight - this.obj.offsetHeight + 'px';
+					this.fly();
+				},
+				fly : function(){
+					var that = this;
+					document.onmousemove = function(evt){
+						var e = evt || window.event;
+						var left = e.clientX - that.obj.offsetWidth/2;
+						var top = e.clientY - that.obj.offsetHeight/2;
+						if(left <= box.offsetLeft){
+							left = box.offsetLeft;
+						}else{
+							if(left >= box.offsetLeft + box.offsetWidth - that.obj.offsetWidth){
+								left = box.offsetLeft + box.offsetWidth - that.obj.offsetWidth;
+							}
+						}
+						if(top <= box.offsetTop){
+							top = box.offsetTop;
+						}else{
+							if(top >= box.offsetHeight - that.obj.offsetHeight){
+								top = box.offsetHeight - that.obj.offsetHeight;
+							}
+						}
+						that.obj.style.left = left + 'px';
+						that.obj.style.top = top + 'px';
+					}
+				}
+			}
+			//zd
+			function Zd(type,id){
+				this.num = type;		//面形对象中传来的参数必须接受了才能用
+				this.id = id;		//面形对象中传来的参数必须接受了才能用
+				this.obj = document.createElement('div');
+				this.obj.id = this.id;	//才能用
+				this.obj.className = 'bullet';
+				this.i();
+			}
+			Zd.prototype = {
+				i : function(){
+					document.body.appendChild(this.obj);
+					this.obj.style.left = My.obj.offsetLeft + My.obj.offsetWidth/2 - this.obj.offsetWidth/2 + 'px';
+					this.obj.style.top = My.obj.offsetTop - this.obj.offsetHeight + 'px';
+					this.fly();
+				},
+				fly : function(){
+					var that = this;
+					var num = 0;
+					switch(this.num){
+						case 0 : num = 80;break;
+						case 1 : num = 60;break;
+						case 2 : num = 40;break;
+						case 3 : num = 20;break;
+					}
+					this.timer = setInterval(function(){
+						that.obj.style.top = that.obj.offsetTop - 15 + 'px';
+						if(that.obj.offsetTop <= 10){
+							that.boom(); //jizhu
+						}
+					},num)
+				},
+				boom : function(){
+					var that = this;
+					this.obj.className = 'bullet_die';
+					clearInterval(this.timer);
+					setTimeout(function(){
+						that.obj.parentNode.removeChild(that.obj);	//要放前面
+						for(var i = 0,length = My.arr.length;i < length;i ++){
+							if(My.arr[i].id == that.obj.id){
+								My.arr.splice(i,1);
+							}
+						}
+					},300)
+				}
+			}
+			//other
+			function Other(num){
+				this.num = num;
+				this.obj = document.createElement('div');
+				this.i();
+			}
+			Other.prototype = {
+				i : function(){
+					document.body.appendChild(this.obj);
+					switch(this.num){
+						case 1 : this.obj.className = 'enemy-small';this.speed = 8;this.hp = 1;break;
+						case 2 : this.obj.className = 'enemy-middle';this.speed = 4;this.hp = 9;break;
+						case 3 : this.obj.className = 'enemy-large';this.speed = 2;this.hp = 60;break;
+					}
+					this.obj.style.left = $random(box.offsetLeft,box.offsetLeft + box.offsetWidth - this.obj.offsetWidth) +'px';
+					this.obj.style.top = -this.obj.offsetHeight + 'px';
+					this.fly();
+				},
+				fly : function(){
+					var that = this;
+					this.timer = setInterval(function(){
+						that.obj.style.top = that.obj.offsetTop + that.speed + 'px';
+						if(that.obj.offsetTop >= box.clientHeight){
+							clearInterval(that.timer);
+							that.obj.parentNode.removeChild(that.obj);
+						}
+						that.check();//计时器生成的元素检测条件的话都要在计时器里检测；
+					},40)
+				},
+				check : function(){
+					for(var i = 0,length = My.arr.length;i < length;i ++){
+					if(My.arr[i].obj.offsetLeft + My.arr[i].obj.offsetWidth > this.obj.offsetLeft && this.obj.offsetLeft + this.obj.offsetWidth > My.arr[i].obj.offsetLeft){
+						if(My.arr[i].obj.offsetTop + My.arr[i].obj.offsetHeight > this.obj.offsetTop && this.obj.offsetTop + this.obj.offsetHeight > My.arr[i].obj.offsetTop){
+							My.arr[i].boom();
+							this.hp --;
+							if(this.hp == 0){
+								this.obj.parentNode.removeChild(this.obj);
+								clearInterval(this.timer);
+							}
+						}
+					}
+				}
+				}
+				
+			}
+			
+			
+			function $random(min,max){
+				return Math.floor(Math.random() * (max - min + 1) + min);
+			}
+			
+			
+			
+			
+			
+			
+		</script>
+	</body>
+</html>

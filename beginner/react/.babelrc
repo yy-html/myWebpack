@@ -1,0 +1,12 @@
+{
+  presets: ['env','react'],   // babel-laoder可以解析任何版本的js文件
+  plugins: [[
+    "transform-runtime",
+    {
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true,
+      "moduleName": "babel-runtime"
+    }
+  ]]
+ }

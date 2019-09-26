@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<div id="div1">
+			<div class="small_pic">
+				<span class="mark"></span>   <!--遮罩层-->
+				<span class="float_layer"></span>
+				<img src="img/small.jpg" />
+			</div>
+			<div class="big_pic">
+				<img src="img/big.jpg" />
+			</div>
+		</div>
+		<script type="text/javascript">
+			//获取所需页面元素
+			//获取大盒子
+			let oBigDiv = document.getElementById("div1");
+			//获取小图所在的盒子
+			let oSmallPic = byClassName(document,'small_pic')[0];
+			//获取遮罩层
+			let oMark = byClassName(document,'mark')[0];
+			//获取滑块
+			let oFloat = byClassName(document,'float_layer')[0];
+			//获取大图所在的盒子
+			let oBigPic = byClassName(document,'big_pic')[0];
+			//获取大图
+			let oBigImage = oBigPic.getElementsByTagName('img')[0];
+			//给遮罩层加鼠标移入 移出 鼠标移动 事件；
+			oMark.onmouseenter = function(){
+				oFloat.style.display = 'block';
+				oBigPic.style.display = 'block';
+			}
+			oMark.onmouseleave = function(){
+				oFloat.style.display = 'none';
+				oBigPic.style.display = 'none';
+			}
+			oMark.onmousemove = function(evt){
+				var e = evt || window.event;
+				var left = e.pageX - oMark.offsetLeft - oBigDiv.offsetLeft - oFloat.offsetWidth/2;
+				var top = e.pageY - oMark.offsetTop - oBigDiv.offsetTop - oFloat.offsetHeight/2;
+				//设置边界；
+				if(left <= 0){
+					left = 0;
+				}else{
+					if(left >= oMark.offsetWidth - oFloat.offsetWidth){
+						left = oMark.offsetWidth - oFloat.offsetWidth;
+					}
+				}
+				if(top <= 0){
+					top = 0;
+				}else{
+					if(top >= oMark.offsetHeight - oFloat.offsetHeight){
+						top = oMark.offsetHeight - oFloat.offsetHeight;
+					}
+				}
+				//鼠标跟随；
+				oFloat.style.left = left + 'px';
+				oFloat.style.top = top + 'px';
+				
+				
+				
+				//大图和小图宽高的比例；
+				var pX = oBigImage.offsetWidth / oMark.offsetWidth;	
+				var pY = oBigImage.offsetHeight / oMark.offsetHeight;
+				//设置大图相框的宽高：为滑块宽高的pX/pY倍；
+				oBigPic.style.width = oFloat.offsetWidth * pX + 'px';		//oFloat.style.width = oBigPic.offsetWidth / pX + 'px';
+				oBigPic.style.height = oFloat.offsetHeight * pY + 'px';	//oFloat.style.Height = oBigPic.offsetHeight / pX + 'px';
+				//让大图跟着滑块动；滑块的定位是多少：大图为它的pX/pY倍；
+				oBigImage.style.left = - oFloat.offsetLeft * pX + 'px';
+				oBigImage.style.top = - oFloat.offsetTop * pY + 'px';
+				
+			}
+			
+			
+			
+			
+			
+			
+			function byClassName(obj,className){
+				if(obj.getElementsByClassName){
+					return obj.getElementsByClassName(className);
+				}else{
+					let arr = [];
+					let eles = document.getElementsByTagName('*');
+					for(let i = 0,len = eles.length;i < len;i ++){
+						if(eles[i].className === className){
+							arr.push(eles[i]);
+						}
+					}
+					return arr;
+				}
+			}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

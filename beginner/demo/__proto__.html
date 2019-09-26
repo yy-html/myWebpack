@@ -1,0 +1,364 @@
+<!DCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <title></title>
+        </head>
+        <body>
+            <div id='box'></div>
+            <script>
+                //__proto__:  指向构造该对象的函数的原型
+                class Fn{
+                    constructor(a){
+                        this.a = a
+                        this.constructor.prototype.d = 2
+                        
+                    }
+                    static c(){this.d()}    //类中静态属性中的this是指类这个函数本身 //static
+                    static d(){console.log('static')}
+                    b(){}
+                }
+
+                class Son extends Fn {
+                    constructor(props) {
+                        super(props) // 调用父类构造器 但this指向子类 会再次运行父类constructor
+                        super.p() // super: 访问父类属性方法 返回父类构造器原型 相当于Fn.prototype.p()
+                        // 调用 super(props): 用来新建父类的this对象 === Fn.call(this, props); 调用完super 又将父类构造器原型赋予super，super === Fn.prototype; 先将父类实例方法添加进this，再构造this的实例，所以this的实例方法会替换掉父类的实例方法
+                        // 在子类普通方法中通过super调用父类的方法时，super指向父类原型；所调用方法内部的this指向当前的子类实例: super.a() == super.a.call(this) 
+                        // 在子类静态方法中通过super调用父类的方法时，super指向父类(始终指向当前环境)；所调用方法内部的this指向当前的子类(始终指向this当前环境)，而不是子类的实例
+                        // super.valueOf()表明super是一个对象，因此就不会报错
+                        // 最后，由于对象总是继承其他对象的，所以可以在任意一个对象中，使用super关键字。
+                        log(new.target) // 如果函数通过new调用 则返回正在运行的函数的引用 否则返回undefined
+                    }
+                }
+
+                const son = new Son()
+                
+                Fn.c()
+                //使用new操作符来调用一个构造函数的时候，发生了什么
+
+                // var obj  ={}
+                // obj.__proto__ = Fn.prototype
+                // Fn.call(obj)
+                // return obj
+ 
+                // 第一行，创建一个空对象obj
+                // 第二行，将这个空对象的__proto__成员指向了构造函数对象的prototype成员对象
+                // 第三行，将构造函数的作用域赋给新对象，因此Fn函数中的this指向新对象obj，然后再调用Fn函数！
+                // 第四行，返回新对象obj
+
+                // 实现new
+                function Fn(b, c) {
+                    this.a = 'a'
+                    this.strB = b
+                    this.strC = c
+                }
+                Fn.prototype.b = function() {
+                    log(this.a)
+                }
+                function newFn() {
+                    const target = [].shift.apply(arguments)
+                    const o = {}
+                    target.apply(o, arguments)
+                    Object.setPrototypeOf(o, target.prototype)
+                    return o
+                }
+                const obj = newFn(Fn, 'b')
+                log(obj.strB)
+                obj.b()
+
+                var obj = new Fn('yy2')
+                var obj2 = new Object()
+                var arr = new Array()
+                //obj
+                console.log(obj)
+                console.log(obj.__proto__ === Fn.prototype)
+                console.log(Fn.prototype.isPrototypeOf(obj))//obj的指针指向Fn.prototype吗？true
+                console.log(Object.getPrototypeOf(obj))//获取obj的指针指向对象 === Fn.prototype
+                console.log(Fn.prototype.__proto__ === Object.prototype)
+
+                console.log(Fn.prototype.constructor === Fn)
+                //obj2
+                console.log(obj2)
+                console.log(obj2.__proto__ === Object.prototype)
+                //Fn
+                console.log(Fn)
+                console.log(Fn.__proto__ === Function.prototype)
+                console.log(Function.prototype.__proto__ === Object.prototype)
+                
+                console.log(Function.__proto__ === Function.prototype)
+                console.log(Function.prototype.constructor === Function)
+                //arr
+                console.log(arr)
+                console.log(arr.__proto__ === Array.prototype)
+                console.log(Array.prototype.__proto__ === Object.prototype)
+                
+                console.log(Array.__proto__ === Function.prototype)
+                console.log(Array.prototype.constructor === Array)
+                //Function && Object
+                console.log(typeof Object)
+                console.log(typeof Function)
+                console.log(typeof Array)      
+
+                console.log(Function.prototype.constructor === Function)
+                console.log(Array.prototype.constructor === Array)
+                console.log(Object.prototype.constructor === Object)
+
+                console.log(Function.__proto__ === Function.prototype)
+                console.log(Array.__proto__ === Function.prototype)
+                console.log(Object.__proto__ === Function.prototype)
+                console.log(Function.prototype.__proto__ === Object.prototype)
+                console.log(Array.prototype.__proto__ === Object.prototype)
+                console.log(Object.prototype.__proto__ === null)
+
+                console.log(Function.prototype.__proto__ === Object.prototype)
+                console.log(Object.prototype.__proto__ === null)
+                
+
+
+                
+
+                console.log(Object.prototype.constructor === Object)
+                
+                console.log(Function === Function.prototype.constructor)
+                console.log(Function.__proto__ === Function.prototype)
+                console.log(Function.prototype.__proto__ === Object.prototype)
+
+
+
+                console.log(box.__proto__ === HTMLDivElement.prototype)
+                console.log(HTMLDivElement.prototype.__proto__ === HTMLElement.prototype)
+                console.log(HTMLElement.prototype.__proto__ === Element.prototype)
+                console.log(Element.prototype.__proto__ === Node.prototype)
+                console.log(Node.prototype.__proto__ === EventTarget.prototype)
+                console.log(EventTarget.prototype.__proto__ === Object.prototype)
+
+                console.log(document.__proto__ === HTMLDocument.prototype)
+                console.log(HTMLDocument.prototype.__proto__ === Document.prototype)
+                console.log(Document.prototype.__proto__ === Node.prototype)
+                
+                // 通过同一个构造函数生成的多个对象，修改其一的实例属性不会对其他对象中的该值产生影响，而修改原型属性则会影响全部对象的属性一同发生修改，因为是同一原型、不同对象；如果实例属性是引用数据类型 修改（push等）会对所有包含此属性的对象产生影响，如果是给此属性重新赋值的话则不会
+                // Fn === obj.constructor ：是指函数对象本身
+                // 实例内部不能访问obj，this === obj
+                // 实例下的指针 this.__proto__ 指向 && === this.constructor.prototype === Fn.prototype
+                // 当js引擎查找对象属性时 先查找对象本身是否具有该属性，没有的话再通过原型链指针查找创建它的对象的原型prototype(this.constructor.prototype === Fn.prototype)中寻找，没有的话再通过原型链指针查找创建它的对象的原型prototype(Object.prototype)中寻找,再没有的话再通过Object.prototype的指针查找，指针属性为null，最后结果为没有找到
+                // static 静态方法 在类的函数对象上constructor创建一个方法 不被类本身的原型方法继承：在constructor内
+                // __proto__原型链指针指向 它本身的所属类型（谁创建的它 它就指向谁的原型方法）的原型prototype方法
+
+                // 实例对象没有prototype属性 构造器、function专有：它们.prototype.constructor 都等于自己本身
+                // function、构造器自带prototype原型属性，并把自身挂载在原型属性内自动生成的constructor构造器上
+                // function、构造器的原型对象prototype里挂载了一个constructor为函数本身，而函数本身又有prototype，所以实现了一个Fn === Fn.prototype.constructor 内部无限引用循环：prototype里有constructor，constructor里边有prototype
+
+                // 对象和函数的构造器constructor === 创建它的对象的原型的构造器
+                
+                // Array Object String Number ... 都是函数类型 指针指向Function.prototype;
+                // new Array 是构造函数对象 指针指向 Array.prototype, Array.prototype指针指向Object.prototype
+                //new Function 是构造函数对象 指针指向 Function.prototype, Function.prototype指针指向Object.prototype
+                // new Object 是构造函数对象 指针指向 Object.prototype
+                
+
+                // var obj = {
+                //     a: {
+                //         c: 3
+                //     },
+                //     b: 2,	
+                // }
+                // var obj2 = Object.create(obj, {
+                //     ownProperties: {
+                //         // 数据属性 || 访问器属性
+                //     }
+                // })
+                // obj.constructor.prototype.d = 4 //Object.prototype.d = 4
+                // console.log(obj.hasOwnProperty('d'))
+                // console.log('d' in obj)
+                // obj.hasOwnProperty('key')：检验是是否是实例属性 包括可枚举和不可枚举
+                // Object.getOwnPropertyNames(obj) 遍历对象的实例 包括可枚举和不可枚举属性
+                // for in：遍历对象实例和原型 可枚举属性
+                // Object.keys(obj) 遍历对象的实例 可枚举属性
+                // Object.getPrototypeOf(obj) 返回该对象的原型链指向的成员对象
+                // Object.setPrototypeOf(obj2, obj): obj2.__proto__ === obj: const obj2 = Object.create(obj)
+                // obj.isPrototypeOf(obj2) // true：obj的是否是obj2的原型链指针对象
+                // obj instanceof Object // true：obj原型链是否指向Object的proto type
+                // for(var key in obj){
+                //     if(obj.hasOwnProperty(key)) {}
+                // }    // 判断属性是否是实例可枚举属性 也可用Object.keys(obj)
+
+                // 对象的每个属性都有一个描述对象（Descriptor），用来控制该属性的行为。
+                // Object.getOwnPropertyDescriptor(s)方法可以获取该属性或对象的(所有对象)描述对象
+
+                // Object.assign：可以操作数据属性和访问器属性
+
+                // ES6 super: 返回this.__proto__
+                
+
+                // var obj = {foo: 5}
+                // var obj2 = obj
+                // obj2.foo = 6
+                // console.log(obj.foo) //6
+                //声明一个引用数据类型的时候，JavaScript 引擎会先在堆内存（Heap）里面，生成一个对象{ foo: 5 }，然后把这个对象的内存地址放在栈内存（Stack），再赋值给变量obj，当访问这个对象的时候，引擎先从obj拿到栈内存（Stack）地址，在通过该地址读取堆内存（Heap）对象，返回他的属性。这个地址就充当了一个引用作用，叫做引用访问。当obj赋值给obj2的时候，其实是把obj的栈内存（Stack）地址赋值给了obj2，并不是对象赋值，当obj2修改这个对象的时候引擎就会通过到这个共同的地址去读取这个对象进行修改，所以obj的地址去访问这个对象就是修改过的
+
+
+                // var a = 'window'
+                // function Fn(){
+                //     this.a = 'Fn'
+                //     this.fn = function(){
+                //     console.log(this.a)
+                // }
+                // }
+                // var f = new Fn()
+                // f.fn()
+                // var foo = f.fn
+                // foo()
+                //this 默认指向函数创建的环境
+                //普通函数 function(){} 默认绑定window 内部作用域指向window；
+                //箭头函数 () => {} 内部作用域this指向当前环境对象
+                //fn.call(this,1,2); fn.bind(this,1,2)(); fn.apply(this,[1,2])
+                //arguments 是个数组形式
+
+                //移除事件：1. event = null；2. removeEventListener()
+                
+
+
+                // function Person(name) {
+                //     if (new.target === Person) {
+                //         this.name = name;
+                //     } else {
+                //         throw new Error('必须使用 new 命令生成实例');
+                //     }
+                // }
+
+
+
+                //继承
+                // function Fn(){
+                //     this.a = true 
+                // } 
+                // Fn.prototype.get1 = function(){ 
+                //     return this.a
+                // }
+                // var obj = new Fn
+
+                // function Fn2(){ 
+                //     this.b = false
+                // }
+                // //继承了 SuperType 
+                // console.log(Fn2.prototype.constructor === Fn2)  //true 此时还指向自己本身
+
+                // Fn2.prototype = new Fn
+                // Fn2.prototype.constructor = Fn2 //条件1
+                // Fn2.prototype.get2 = function (){
+                //     return this.b
+                // }
+                // Fn2.f2 = 'static'
+                
+                
+                // var instance = new Fn2()
+                
+                // console.log(Fn2.prototype.constructor === Fn2) //true 如果不加条件1，此时已就不指向自己了而指向Fn,因为prototype里已经没有constructor属性，要通过继承来
+                // console.log(Fn.prototype.constructor === Fn)  //true
+                // console.log(new Fn())
+                // console.log(instance)
+                // console.log(instance instanceof Object)
+                // console.log(instance instanceof Fn)
+                // console.log(instance instanceof Fn2)
+                // console.log('1',instance.get1())
+
+                // function SuperType(){ 
+                // 	 this.colors = [1,2,3]
+                // }
+                // function SubType(){ 
+                // } 
+                // //继承了 SuperType 
+                // SubType.prototype = new SuperType(); 
+                // var instance1 = new SubType(); 
+                // instance1.colors.push(2)
+                // console.log(instance1.colors); //"red,blue,green,black" 
+                // var instance2 = new SubType(); 
+                // console.log(instance2.colors); //"red,blue,green,black
+
+                // function SuperType(){ 
+                // 	this.colors = ["red", "blue", "green"]; 
+                // } 
+                // function SubType(){ 
+                // 	//继承了 SuperType 
+                // 	SuperType.call(this); 
+                // } 
+                // var instance1 = new SubType(); 
+                // instance1.colors.push("black"); 
+                // console.log(instance1.colors); //"red,blue,green,black" 
+                // var instance2 = new SubType(); 
+                // console.log(instance2.colors); //"red,blue,green" 
+
+
+
+                //深拷贝
+                const obj3 = {a:'a',b:[1,2,3]}
+                function deepCopy(o,c){
+                    var c = c || {}
+                    for(let i in o){
+                        if(typeof o[i] === 'object'){
+                            const tem = o[i].constructor === Array ? [] : {}
+                            c[i] = deepCopy(o[i],tem)
+                        }else{
+                            c[i] = o[i]
+                        }
+                    }
+                    return c
+                }
+                const newObj = deepCopy(obj3)
+                newObj.b.push(4)
+                console.log(newObj)
+                console.log(obj3)
+
+
+
+
+
+                // 实例原型优先级 && 覆盖
+		class Ft {
+			constructor() {
+				// this.a = () => {log('ft-实例')}
+				this.ft = 'ft'
+			}
+
+			static st1 = 'st'
+			static st2() {log('st')}
+
+			a() {log('ft-原型')}
+		}
+
+		class Fn extends Ft {
+			constructor(props) {
+				super(props)
+				// this.a = () => {log('实例')}
+			}
+
+			a() {log('原型')}
+		}
+
+
+		const f = new Fn()
+
+		// const ft = new Ft()
+
+		log(f)
+		f.a()
+
+		log(Object.getPrototypeOf(f) === Fn.prototype)
+		log(Object.getPrototypeOf(Fn.prototype) === Ft.prototype)
+		log(Object.getPrototypeOf(Ft.prototype) === Object.prototype)
+
+		// log(Ft.st1)
+		// Ft.st2()
+
+		log(Fn.st1)
+		Fn.st2()
+
+		log(Object.getPrototypeOf(Fn) === Ft.prototype)
+
+                
+                
+
+            </script>
+        </body>
+    </html>

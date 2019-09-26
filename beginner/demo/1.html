@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>日期</td>
+			<td>用户</td>
+		</tr>
+		<tr>
+			<td><p>2018-03-02</p></td>
+			<td><input value='user1' /></td>
+		</tr>
+		<tr>
+			<td><p>2018-03-03</p></td>
+			<td><input value='user2' /></td>
+		</tr>
+		<tr>
+			<td><p>2018-03-04</p></td>
+			<td><input value='user3' /></td>
+		</tr>
+	</table>
+	<script>
+		const log = console.log
+
+		// 2018-02-26 ~ 2018-03-05
+		const startDate = new Date('2018-02-26')
+		const endDate = new Date('2018-03-05')
+		const days = (endDate - startDate) /1000 /60 /60 /24
+		const dataObj = []
+		
+		const table = document.querySelector('table')
+		const trs = document.getElementsByTagName('tr')
+		const newTrs = [].slice.call(trs,1)
+
+		newTrs.forEach(item => {
+			const date = item.children[0].children[0].innerText
+			const user = item.children[1].children[0].value
+			dataObj.push({
+				date,
+				user
+			})
+		})
+		log(dataObj)
+		table.removeChild(table.children[0])
+
+		for(let i = 0; i <= days; i ++) {
+			let date = new Date(startDate.getTime() + i * 1000 * 60 * 60 * 24)
+
+			date = new Date(date).toLocaleDateString().split('/')
+			let newDate = []
+			date.forEach(item => {
+				newDate.push(transform(item))
+			})
+			newDate = newDate.join('-')
+
+			let user = ''
+			dataObj.forEach(item => {
+				if(newDate == item.date) {
+					user = item.user
+				}
+			})
+
+			const tr = `
+			<tr>
+				<td><p>${newDate}</p></td>
+				<td><input value='${user}' /></td>
+			</tr>
+			`
+
+			table.innerHTML += (tr)
+		}
+
+		function transform(str) {
+			return str < 10 ? '0' + str : str
+		}
+
+		
+
+		
+		
+
+		// const date = new Date('2018-1-1')
+		// date.setDate(date.getDate() + 1)
+		// log(date)
+
+		//解构加拓展运算符
+
+		// Array
+		// const [ a, ...b ] = [ 1, 2, 3 ]
+		// console.log(b)// [2,3]
+		// Object
+		// const { a, defaulT: d = 'default', ...b } = { a:1, b:2, c:3 }
+		// console.log(b,d)// {b:2}, 'default'
+		// String
+		// const str = 'abcd'
+		// const [ a, b, ...c ] = str
+		// const { length: le } = str
+		// console.log(a,b,c,le)// a,b,['c','d'],7
+		// Function params
+		// function fn({ component: C = 'default', ...rest }, ...n){
+		//   console.log(C, rest, n)// 'component', {b:2,c:3}, ['a'] //参数arguments其实是一个数组
+		// }
+		// fn({ component: 'component', b:2, c:3 }, 'a')
+		// function fn([ a, b, ...c]){
+		//   console.log(a,b,c)// 1,2,[3,4]
+		// }
+		// fn([1,2,3,4])
+		// async function fn() {
+		// 	const data = await new Promise( (resolve,reject) => {
+		// 		setTimeout( () => resolve(1),1000)
+		// 	})
+		// 	log(data)
+		// 	return 1
+		// }
+		// fn().then( data => {
+		// 	log('then',data)
+		// })
+		// async function fn() {
+		// 	// throw new Error('err') //reject相当于抛出错误
+
+		// 	const dataPromise = new Promise( (resolve,reject) => {
+		// 		setTimeout( () => reject('resolveData'),1000)
+		// 	}).catch( e => log(e))//即使异步错误也不会跳出async函数:不影响后面异步操作的执行;dataPromise==unde
+		// 	const data2Promise = new Promise( (resolve,reject) => {
+		// 		setTimeout( () => resolve('resolveData2'),1000)
+		// 	})
+
+		// 	// 多个异步没有依赖关系同时执行方法1:
+		// 	// const data = await dataPromise
+		// 	// const data2 = await data2Promise
+		// 	// 方法2:
+		// 	const [data,data2] = await Promise.all([dataPromise,data2Promise])
+
+		// 	log(data,data2)
+		// 	return data2
+		// }
+		// fn().then(	// 调用条件：1. async函数运行完毕 2. 遇到return语句 3. 遇到throw语句
+		// 	data => {
+		// 	log('resolveThen',data)
+		// }).catch( err => {
+		// 	log('rejectThen',err)
+		// })
+
+		// // let a = true; +b 相当于 Number(true) === 1
+		// log(NaN + '')
+
+		
+		
+
+	</script>
+</body>
+</html>

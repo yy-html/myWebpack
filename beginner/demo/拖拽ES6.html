@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background:#999;
+				position:absolute;
+			}
+			#box2{
+				width:100px;
+				height:100px;
+				background:red;
+				position:absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='box'></div>
+		<div id='box2'></div>
+		<script>
+			//ES6 drag
+			class Drag{
+				constructor(id){		//构造器：实例
+					this.obj = document.getElementById(id);
+					this.obj.onmousedown = function(evt){
+						this.objmousedown(evt);
+					}.bind(this);
+				}
+				//原型：ES6只省略对象方法的this 和 = 号 和 function
+				objmousedown(evt){
+					this.e = evt || window.event;
+					document.onmousemove = function(evt2){
+						this.dcmtmousemove(evt2);
+					}.bind(this);
+					document.onmouseup = function(){
+						this.dcmtmouseup();
+					}.bind(this);
+					document.ondragstart = function(){
+						return false;
+					}
+				}
+				dcmtmousemove(evt2){
+					this.e2 = evt2 || window.event;
+					this.left = this.e2.pageX - this.e.offsetX;
+					this.top = this.e2.pageY - this.e.offsetY;
+					this.obj.style.left = this.left + 'px';
+					this.obj.style.top = this.top + 'px';
+				}
+				dcmtmouseup(){
+					document.onmousemove = null;
+				}
+			}
+			new Drag('box');
+			
+			//ES6继承
+			class Drag2 extends Drag{	//extends 继承
+				constructor(id){
+					super(id);		//调用父类构造器方法
+				}
+				dcmtmousemove(evt2){		//修改添加从父类继承过来的方法 不影响父类
+					this.e2 = evt2 || window.event;
+					this.left = this.e2.pageX - this.e.offsetX;
+					this.top = this.e2.pageY - this.e.offsetY;
+					if(this.left <= 0){
+						this.left = 0;
+					}else{
+						if(this.left >= document.documentElement.clientWidth - this.obj.offsetWidth){
+							this.left = document.documentElement.clientWidth - this.obj.offsetWidth;
+						}
+					}
+					if(this.top <= 0){
+						this.top = 0;
+					}else{
+						if(this.top >= document.documentElement.clientHeight - this.obj.offsetHeight){
+							this.top = document.documentElement.clientHeight - this.obj.offsetHeight;
+						}
+					}
+					this.obj.style.left = this.left + 'px';
+					this.obj.style.top = this.top + 'px';
+				}
+			}
+			var a = new Drag2('box2')
+		</script>
+	</body>
+</html>

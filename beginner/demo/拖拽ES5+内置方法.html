@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background:#999;
+				position:absolute;
+			}
+			#box2{
+				width:100px;
+				height:100px;
+				background:red;
+				position:absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='box'></div>
+		<div id='box2'></div>
+		<script>
+			//拖拽的ES5；
+			function Drag(id){
+				//属性；
+				this.obj = document.getElementById(id);
+				this.i();
+				//实例方法；方法内出现函数：不用传参的函数直接等于函数名 不用加括号；需要传参的函数写成函数形式在函数内调用方法；
+				//this.i = function(){}
+			}
+			//原型方法 1 ：写在构造函数外；不管创建了多少对象 原型内的方法只开辟一次空间
+			Drag.prototype.i = function(){
+				this.obj.onmousedown = function(evt){
+					this.fnmousedown(evt);
+				}.bind(this);
+			}
+			Drag.prototype.fnmousedown = function(evt){
+				this.e = evt || window.event;
+				document.onmousemove = function(evt2){
+					this.fnmousemove(evt2);
+				}.bind(this);
+				document.onmouseup = this.fnmouseup;
+				document.ondragstart = function(){
+					return false;
+				}
+			}
+			Drag.prototype.fnmousemove = function(evt2){
+				this.e2 = evt2 || window.event;
+				this.left = this.e2.pageX - this.e.offsetX;
+				this.top = this.e2.pageY - this.e.offsetY;
+				this.obj.style.left = this.left + 'px';
+				this.obj.style.top = this.top + 'px';
+			}
+			Drag.prototype.fnmouseup = function(){
+				document.onmousemove = null;
+			}
+			
+			new Drag('box');
+			
+			//原型方法 2 : 简写
+			function Drag(id){
+				this.obj = document.getElementById(id);
+				this.i();
+			}
+			Drag.prototype = {
+				i : function(){
+					this.obj.onmousedown = function(evt){
+						this.fnmousedown(evt);
+					}.bind(this);
+				},
+				fnmousedown : function(evt){
+					this.e = evt || window.event;
+					document.onmousemove = function(evt2){
+						this.fnmousemove(evt2);
+					}.bind(this);
+					document.onmouseup = this.fnmouseup;
+					document.ondragstart = function(){
+						return false;
+					}
+				},
+				fnmousemove : function(evt2){
+					this.e2 = evt2 || window.event;
+					this.left = this.e2.pageX - this.e.offsetX;
+					this.top = this.e2.pageY - this.e.offsetY;
+					this.obj.style.left = this.left + 'px';
+					this.obj.style.top = this.top + 'px';
+				},
+				fnmouseup : function(){
+					document.onmousemove = null;
+				}
+			}
+			
+			
+			//ES5继承
+			function Drag2(id){
+			//构造继承（经典继承 冒充继承 伪装继承）
+			//	Drag.call(this,id);
+			//	Drag.apply(this,[id]);
+				Drag.apply(this,arguments);
+			}
+			//原型继承：拷贝继承
+			for(var i in Drag.prototype){
+				Drag2.prototype[i] = Drag[i];
+			}
+//			for(var i in Drag3.prototype){				可实现多继承
+//				Drag2.prototype[i] = Drag3.prototype[i];
+//			}
+			//原型继承：原型链继承
+//			Drag2.prototype = new Drag();
+
+			Drag2.prototype.fnmousemove = function(evt2){
+				this.e2 = evt2 || window.event;
+				this.left = this.e2.pageX - this.e.offsetX;
+				this.top = this.e2.pageY - this.e.offsetY;
+				if(this.left <= 0){
+					this.left = 0;
+				}else{
+					if(this.left >= document.documentElement.clientWidth - this.obj.offsetWidth){
+						this.left = document.documentElement.clientWidth - this.obj.offsetWidth;
+					}
+				}
+				if(this.top <= 0){
+					this.top = 0;
+				}else{
+					if(this.top >= document.documentElement.clientHeight - this.obj.offsetHeight){
+						this.top = document.documentElement.clientHeight - this.obj.offsetHeight;
+					}
+				}
+				this.obj.style.left = this.left + 'px';
+				this.obj.style.top = this.top + 'px';
+			}
+			new Drag2('box2');
+			
+			//修改和创建内置对象
+			var arr = [1,2,3,4,5];
+//			arr.sum = function(){
+//				var sum = null;
+//				for(var i = 0,length = arr.length;i < length;i ++){
+//					sum += arr[i];
+//				}
+//				return sum;
+//			}
+			//arr.sum() === 15;
+			Array.prototype.sum = function(){
+				var sum = null;
+				for(var i = 0,length = this.length;i < length;i ++){
+					sum += this[i];
+				}
+				return sum;
+			}
+			alert(arr.sum());
+		</script>
+	</body>
+</html>

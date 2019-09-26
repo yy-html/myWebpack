@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "Log",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#999",
+  "backgroundColorTop": "#999",
+  "backgroundColorBottom": "#000",
+  "backgroundTextStyle": "light",
+  "onReachBottomDistance": "50"
+}

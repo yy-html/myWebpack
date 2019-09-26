@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+            var text = 111
+            var obj = {}
+            obj.key = 2
+            Object.defineProperties(obj,{
+                key:{
+                    enumerable: true,
+                    configurable: false,
+                    get(){
+                        // alert(1)
+                        return text
+                    },
+                    set(val){
+                        // console.log(val)//被设置的值 222
+                        text = val 
+                    }
+                }
+            })
+            delete obj.key
+            console.log(obj.key)    //obj.key被获取的时候 get 被调用
+            obj.key = 222   //obj.key被设置的时候 set 被调用
+            console.log(text)   // 222
+            console.log(obj.key)
+            // Object.defineProperty(obj,'key',{   //监听 obj 的一个键
+            //     // 数据属性: 如果写上Object.defineProperty()方法不设置数据属性，默认都为false；不使用方法默认值为true；value默认值为'undefined'
+            //     // value: 'value',
+            //     // writable: true,    //是否能修改属性值? 但始终可以删除
+            //     // enumerable: true,   //是否能通过for-in循环
+            //     // configurable: false,    //是否能delete删除属性
+            //     // 访问器属性：
+            //     enumerable: true,
+            //     configurable: false,
+            //     get(){
+            //         alert('1')
+            //         return text
+            //     },
+            //     set(val){
+            //         console.log(val)//被设置的值 222
+            //         text = 'change'
+            //     }
+            // })
+            
+			
+		</script>
+	</body>
+</html>

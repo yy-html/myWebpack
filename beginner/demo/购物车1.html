@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			table{border-collapse:collapse;}
+			td{border:1px solid #000;}
+			a{color:#999;}
+		</style>
+	</head>
+	<body>
+		<table id='tab'>
+			<tr><td>序号</td><td>商品名称</td><td>商品单价</td><td>数量</td></tr>
+		</table>
+		<script>
+			var arr = document.cookie.split('; ');
+			for(var i = 0,length = arr.length;i < length;i ++){
+				var arr2 = arr[i].split('=');
+				if(arr2[0].indexOf('product:') != -1){
+					var json = eval('(' + arr2[1] + ')');
+					var tab = document.getElementById('tab');
+					var tr = document.createElement('tr');
+					var td1 = document.createElement('td');
+					var td2 = document.createElement('td');
+					var td3 = document.createElement('td');
+					var td4 = document.createElement('td');
+					tab.appendChild(tr);
+					tr.appendChild(td1);
+					tr.appendChild(td2);
+					tr.appendChild(td3);
+					tr.appendChild(td4);
+					td1.innerHTML = json.id;
+					td2.innerHTML = json.name;
+					td3.innerHTML = json.price;
+					td4.innerHTML = json.num;
+				}
+			}
+		</script>
+	</body>
+</html>

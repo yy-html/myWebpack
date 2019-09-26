@@ -1,0 +1,20 @@
+@import '@/lib/reset.scss';
+
+footer{
+    @include rect(100%,1rem);
+    @include background-color(#eee);
+    ul{
+        @include flexbox();
+        @include rect(100%,100%);
+        li{
+            @include flex();
+            @include flexbox();
+            @include justify-content();
+            @include align-items();
+        }
+        .router-link-exact-active, .router-link-active{
+            @include text-color(#fff);
+            @include background-color(#ccc);
+        }
+    }
+}

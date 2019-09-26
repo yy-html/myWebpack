@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset='utf-8'>
+    </head>
+    <body>
+        <script>
+            //当浏览器窗口大于1500时 打印 'hello'，当持续小于1500时，只打印一次窗口宽度
+            var n = 1
+			window.onresize = function(){
+				var w = window.outerWidth
+				if(w > 1500){
+					n = 1
+					console.log('hello')
+				}else if(n){
+					n = 0
+					console.log('window.outerWidth',w)
+				}
+				// console.log('window.innerWidth',window.innerWidth)
+				// console.log('window.screenX',window.innerWidth)
+            }
+        </script>
+    </body>
+</html>

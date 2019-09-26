@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0; }
+        li{list-style: none;}
+        img{display: block; border: none;  }
+         .title{
+             width: 1000px; margin: 30px auto;
+            position: relative;
+            z-index:2;
+
+
+            height: 40px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+        }
+         .title ul li{
+            float: left;
+            position: relative;
+            width: 75px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+         .title ul li span.red{
+            color: red;
+        }
+         .title ul li .hide{
+            display: none;
+            position: absolute;
+            top: 41px;
+            left: 0;
+            width: 100px;
+            height: 80px;
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+         .title ul li .hide a{
+            display: block;
+            width: 100%;
+            height: 40px;
+        }
+        .title ul li .hide a:hover{color: red;}
+
+
+       #header{ margin: 30px auto;border: 1px solid #cccccc;  width: 1000px; }
+       #header ul{overflow: hidden;}
+      #header ul li{    position: relative;
+          float: left;
+          width: 200px;
+          height: 230px;
+          padding: 10px;
+          margin: 10px 14px;
+          border: 1px solid #ddd;
+      }
+  img{
+            width: 200px;
+            height: 200px;
+        }
+       #header ul li p{
+            overflow: hidden;
+            font-size: 12px;
+            line-height: 20px;
+            margin-top: 5px;
+        }
+        #header ul li div.txt{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: url("img/price.png");
+            color: #ffe218;
+            font-weight: bold;
+            line-height: 50px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+
+
+<div id="box">
+    <div class="title">
+        <ul>
+            <li>流行</li>
+            <li>热销</li>
+            <li>上新</li>
+            <li id="price">
+                <span>价格</span>
+                <div class="hide">
+                    <a>价格从高到低</a>
+                    <a>价格从低到高</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="header">
+        <ul>
+            <li><img src="">
+                <p>粉色浪漫系列玫瑰</p>
+                <div class="txt">￥<span>500</span></div>
+
+
+            </li>
+            <li><img src="">
+                <p>粉色浪漫系列玫瑰</p>
+                <div class="txt">￥<span>500</span></div>
+            </li>
+            <li><img src="">
+                <p>深红色经典玫瑰</p>
+                <div class="txt">￥<span>100</span></div>
+            </li>
+            <li><img src="">
+                <p>清淡优雅百年百合</p>
+                <div class="txt">￥<span>300</span></div>
+
+
+            </li>
+            <li><img src="">
+                <p>紫色冷艳系列</p>
+                <div class="txt">￥<span>700</span></div>
+
+
+            </li>
+            <li><img src="">
+                <p>经典红色我的最爱</p>
+                <div class="txt">￥<span>130</span></div>
+
+
+            </li>
+            <li><img src="">
+                <p>甜美七分袖荷叶边条纹设</p>
+                <div class="txt">￥<span>215</span></div>
+
+
+            </li>
+            <li><img src="">
+                <p>甜美七分袖荷叶边条纹设</p>
+                <div class="txt">￥<span>97</span></div>
+
+
+            </li>
+        </ul>
+    </div>
+    </div>
+
+
+   <script>
+
+
+          /*1. 获取点击按钮事件;
+             2.创建数组 arr=[];
+             3.for循环arr[i]=[];将内容一个一个装里面  arr[i][0]  arr[i][1];
+             4.点击排序 ; 排序前清空内容 ,在添加内容;
+       */
+        var Price=document.getElementById("price");
+        var Hide=document.getElementsByClassName("hide")[0];
+       var HideA=document.querySelectorAll(".title .hide a");
+        var List=document.querySelectorAll("#header ul li");
+        var ListUl=document.querySelector("#header ul");
+       var arr=[];
+               Price.onmousemove=function () {
+                Hide.style.display="block";
+
+
+               };
+               
+              Price.onmouseout=function () {
+                  Hide.style.display="none";
+              };
+              
+              
+          for (var i=0; i<HideA.length; i++)
+          {
+                HideA[i].index=i;
+                HideA[i].onclick=function () {
+               Sort(this.index)
+              }
+          }
+          
+          
+           for ( i=0; i<List.length; i++)
+           {
+               arr[i]=[];
+               arr[i][0] = List[i].querySelector("img").src;
+
+ 
+
+
+               arr[i][1]=List[i].querySelector("p").innerHTML;
+               arr[i][2]=Number(List[i].querySelector("span").innerHTML);
+               console.log(arr)
+           }
+           
+           
+           function Sort(index) {
+                arr.sort(function (a,b) {
+                    return index ? a[2]-b[2] : b[2]-a[2];
+                })
+               ListUl.innerHTML="";
+            for (i=0; i<List.length; i++)
+             {
+                 ListUl.innerHTML+="<li><img src='"+arr[i][0]+"'><p>"+arr[i][1]+"</p><div class='txt'>￥<span>"+arr[i][2]+"</span></div> </li>"
+             }
+          }
+   </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+@import '@/lib/reset.scss';
+
+.my-enter-active{
+  transition: all .5s ease;
+}
+.my-leave-active{
+  transition: all 0;
+}
+.my-enter{
+  transform: translateX(100px);
+//opacity: 0;
+}
+.my-enter-to{
+  transform: translateX(0);
+}
+.my-leave{
+  transform: translateX(0);
+}
+.my-leave-to{
+  transform: translateX(-100%);
+}

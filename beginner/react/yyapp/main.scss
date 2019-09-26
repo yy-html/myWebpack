@@ -1,0 +1,145 @@
+@import '@/lib/reset.scss';
+
+html, body, #root, .container{
+    @include rect(100%,100%);
+}
+.loading{
+    @include rect(1rem,0.5rem);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content();
+    @include background-color(rgba(0,0,0,.2));
+    @include border-radius(0.15rem)
+}
+
+.container{
+    @include flexbox();
+    @include flex-direction(column);
+    .main{
+        @include flex();
+        @include rect(100%,auto);
+        @include flexbox();
+        @include flex-direction(column);
+        header{
+            @include rect(100%,1.2rem);
+            @include background-color(pink);
+            .goodsDetailHeader{
+                @include flexbox();
+                @include rect(100%,100%);
+                li{
+                    @include flexbox();
+                    @include flex();
+                    @include align-items(center);
+                    @include justify-content();
+                }
+                li:nth-of-type(1){
+                    @include rect(auto,100%);
+                }
+                li:nth-of-type(2){
+                    @include rect(auto,100%);
+                    @include flex(2);
+                    
+                }
+                li:nth-of-type(3){
+                    @include rect(auto,100%);
+                    
+                }
+            }
+        }
+        .content{
+            @include flex();
+            @include rect(100%,auto);
+            @include overflow(auto);
+            .homeContent{
+                li{
+                    @include flexbox();
+                    img{
+                        @include rect(1.5rem,1.7rem);
+                    }
+                    div{
+                        @include flex();
+                    }
+                }
+            }
+            .classify{
+                @include flexbox();
+                @include rect(100%,100%);
+                .menu{
+                    @include rect(1.2rem,100%);
+                    @include overflow(auto);
+                    li{
+                        @include rect(100%,1rem);
+                        @include border(0 1px 1px 0,#999);
+                        @include flexbox();
+                        @include align-items(center);
+                        @include justify-content();
+                        @include flex-direction(column);
+                        &.active{
+                            @include text-color(#f00);
+                        }
+                    }
+                }
+                .list{
+                    @include flex();
+                    @include rect(auto,100%);
+                    @include overflow(auto);
+                    li{
+                        @include flexbox();
+                    img{
+                        @include rect(1.5rem,1.7rem);
+                    }
+                    div{
+                        @include flex();
+                    }
+                }
+                }
+            }
+            .cartList{
+                @include flexbox();
+                @include margin(0.2rem);
+                img{
+                    @include rect(1rem,1rem)
+                }
+                div{
+                    @include flex();
+                    p:nth-of-type(3){
+                        input{
+                            @include rect(0.25rem,auto)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    footer{
+        @include rect(100%,1rem);
+        @include background-color(#eee);
+        ul{
+            @include flexbox();
+            @include rect(100%,100%);
+            li{
+                @include flex();
+                @include rect(auto,100%);
+                a{
+                    @include flex();
+                    @include align-items(center);
+                    @include justify-content();
+                    @include flex-direction(column);
+                    @include flexbox();
+                    @include rect(100%,100%);
+                    @include text-color(#000);
+                    &.active{
+                        @include background-color(#999);
+                        @include text-color(#fff);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+		//快速排序
+		function quickSort(){
+
+		　　if (arr.length <= 1) { return arr; }
+		　　var pivotIndex = Math.floor(arr.length / 2);
+		
+		　　var pivot = arr.splice(pivotIndex, 1)[0];
+		
+		　　var left = [];
+		
+		　　var right = [];
+		
+		　　for (var i = 0; i < arr.length; i++){
+		
+		　　　　if (arr[i] < pivot) {
+		
+		　　　　　　left.push(arr[i]);
+		
+		　　　　} else {
+		
+		　　　　　　right.push(arr[i]);
+		
+		　　　　}
+		
+		　　}
+		
+		　　return quickSort(left).concat([pivot], quickSort(right));
+		
+		};
+		//把a数组逆向排序给b数组
+		var a = new Array(0,4,2,3,1,);
+		var b = [];
+		for(var i = a.length - 1;i >= 0;i --){
+			b[a.length - i - 1] = a[i];	// b.push(a[i]);
+		}
+		alert(b);
+		
+		
+		//把数组a的数字按从小到大排列的顺序排列(冒泡排序 正向)
+		var a = [4,2,3,1,0];
+		function fn(n){
+		for(var j = 1;j < a.length;j ++){
+				for(var i = 0;i < a.length - j;i ++){
+					if(a[i] > a[i + 1]){
+						var t = a[i];
+						a[i] = a[i + 1];
+						a[i + 1] = t;
+					}
+				}
+			}
+			return a;
+		}
+		console.log(fn(a));
+		
+		 
+		//把数组a的数字按从大到小排列的顺序排列(冒泡排序 正向)
+		var a = [0,1,3,2,4];
+		function fn(n){
+			for(var j = 1;j < n.length;j ++){
+				for(var i = 0;i < n.length - j;i ++){
+					if(n[i] < n[i + 1]){
+						var t = n[i];
+						n[i] = n[i + 1];
+						n[i + 1] = t;
+					}
+				}
+			}
+			return n;
+		}
+		console.log(fn(a));
+		
+		
+		
+		//把数组a的数字按从小到大排列的顺序排列(选择排序 正向)
+		var a = [4,2,3,1,0];
+		function fn(n){
+			for(var i = 0;i < n.length - 1;i ++){
+				for(var j = i + 1;j < n.length;j ++){
+					if(n[i] > n[j]){
+						var t = n[i];
+						n[i] = n[j];
+						n[j] = t;
+					}
+				}
+			}
+			return n;
+		}
+		console.log(fn(a));
+		
+		
+		// //把数组a的数字按从小到大排列的顺序排列(冒泡排序 逆向)
+		// var a = [4,2,3,1,0];
+		// function fn(n){
+		// 	for(var j = 1;j < n.length;j ++){
+		// 	for(var i = n.length - 1;i >= j;i --){
+		// 		if(n[i] < n[i - 1]){
+		// 			var t = n[i];
+		// 			n[i] = n[i - 1];
+		// 			n[i - 1] = t;
+		// 			}
+		// 		}
+		// 	}
+		// return n;
+		// }
+		// console.log(fn(a));
+		
+		
+		
+		
+		
+		//判断字符串或数组中出现最多的字符并记录其次数
+		var str = 'hkajfahfauhtasaabua';
+		var arr = str.split('');
+		var max = 0;
+		var maxstr = ''
+		for(var i = 0,len = arr.length;i < len;i ++){
+			var maxnum = 0;
+			for(var j = 0,len = arr.length;j < len;j ++){
+				if(arr[i] == arr[j]){
+					maxnum ++;
+				}
+			}
+			if(i >= 1 && maxnum > max){
+				maxstr = arr[i];
+				max = maxnum;
+			}
+		}
+		console.log(maxstr);
+		console.log(max);
+		
+		
+		
+		
+		
+		//输出数组中的最大值
+		// var a = [2,1,4,3,0];
+		// var max = a[0];
+		// for(var i = 1;i < a.length - 1;i ++){
+			
+		// 	if(a[i] > max){
+		// 		max = a[i];
+		// 	}
+		// }
+		// alert(max);
+		
+		// //2. 冒泡排序
+		// var a = [2,1,4,3,0];
+		// for(var i = 0;i <a.length - 1;i ++){
+		// 	if(a[i] > a[i + 1]){
+		// 		var t = a[i];
+		// 		a[i] = a[i + 1];
+		// 		a[i + 1] = t;
+		// 	}
+		// }
+		// alert(a[a.length - 1]);
+		
+		// //3. 选择排序
+		// var a = [2,1,4,3,0];
+		// for(var i = 0;i < a.length - 1;i ++){
+		// 	if(a[0] < a[i + 1]){
+		// 		var t = a[0];
+		// 		a[0] = a[i + 1];
+		// 		a[i + 1] = t;
+		// 	}
+		// }
+		// alert(a[0]);
+		
+	
+		</script>
+	</body>
+</html>

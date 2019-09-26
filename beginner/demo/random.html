@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title></title>
+    </head>
+    <body>
+        <script>
+            
+            var arr = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','e','x','y','z',1,2,3,4,5,6,7,8,9,0]
+			function random(){
+				var str = ''
+				for(var i = 0;i < 4;i ++){
+					str += arr[Math.floor(Math.random()*arr.length)]
+				}
+				return str
+            }
+            
+            Math.floor(Math.random()*0xffffff).toString(16) //先把颜色的最大值转成10进制，随即完成再转回16进制
+        </script>
+    </body>
+</html>

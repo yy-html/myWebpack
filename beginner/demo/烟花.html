@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body{
+				background:#000;
+			}
+			.up{
+				width:5px;
+				height:10px;
+				position:absolute;
+				background:#f00;
+			}
+			.boom{
+				width:10px;
+				height:10px;
+				position:absolute;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<script src='js/jquery-1.11.3.js'></script></script>
+		<script src='js/gongjv.js'></script>
+		<script>
+			document.onclick = function(evt){
+				var e = evt || window.event;
+				new Fn(e);
+			}
+			class Fn{
+				constructor(e){
+					this.e = e;
+					this.up();
+				}
+				up(){
+					var that = this;
+					this.obj = document.createElement('div');
+					document.documentElement.appendChild(this.obj);
+					this.obj.className = 'up';
+					this.obj.style.left = this.e.clientX - this.obj.offsetWidth/2 + 'px';
+					this.obj.style.top = document.documentElement.clientHeight + 'px';
+					start(this.obj,{top : this.e.clientY - this.obj.offsetHeight/2},function(){
+						that.obj.parentNode.removeChild(that.obj);
+						that.boom();
+					});
+				}
+				boom(){
+					var random = Math.random()*10 + 30;
+					for(var i = 0;i < random;i ++){
+						var obj2 = document.createElement('div');	//面向对象中循环出现的元素不能写成属性
+						document.documentElement.appendChild(obj2);
+						obj2.className = 'boom';
+						obj2.style.background = '#' + Math.floor(Math.random()*0xffffff).toString(16);
+						obj2.style.left = this.e.clientX - obj2.offsetWidth/2 + 'px';
+						obj2.style.top = this.e.clientY - obj2.offsetHeight/2 + 'px';
+						this.down(obj2);
+					}
+					
+				}
+				down(obj2){
+					var speedX = Math.floor(Math.random()*15) * (Math.random() > 0.5 ? 1 : -1);
+					var speedY = Math.floor(Math.random()*15) * (Math.random() > 0.5 ? 1 : -1);
+					obj2.timer = setInterval(()=>{
+						obj2.style.left = obj2.offsetLeft + speedX + 'px';
+						obj2.style.top = obj2.offsetTop + speedY ++ + 'px'; // - speed --
+						console.log(speedY);
+						if(obj2.offsetTop >= document.documentElement.clientHeight){
+							clearInterval(obj2.timer);			//清除计时器
+							obj2.parentNode.removeChild(obj2);
+						}
+					},30)
+				}
+			}
+			
+			
+		</script>
+	</body>
+</html>
+ 

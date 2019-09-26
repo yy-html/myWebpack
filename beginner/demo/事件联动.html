@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+    </head>
+    <body>
+        <div id='box'>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </div>
+        <ul id='ul'>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+        <script>
+
+            for(let i=0;i<box.childNodes.length;i++){
+                box.childNodes[i].onclick = function(){
+                    for(let j=0;j<box.childNodes.length;j++){
+                        if(box.childNodes[j].nodeName.toLowerCase() == 'li'){
+                            ul.childNodes[j].style.background = ''
+                        }
+                    }
+                    if(this.nodeType == 1){
+                        ul.childNodes[i].style.background = '#f00'
+                    }
+                }
+            }
+
+
+            for(var i=0;i<box.childNodes.length;i++){
+                box.childNodes[i].index = i
+                box.childNodes[i].onclick = function(){
+                    for(let j=0;j<box.childNodes.length;j++){
+                        if(box.childNodes[j].nodeName.toLowerCase() == 'li'){
+                            ul.childNodes[j].style.background = ''
+                        }
+                    }
+                    if(this.nodeType == 1){
+                        ul.childNodes[this.index].style.background = '#f00'
+                    }
+                }
+            }
+            
+            
+            for(let i=0;i<box.childNodes.length;i++){
+                box.onclick = function(e){
+                    var children = e.target.parentNode.children
+                    for(let j = 0;j < children.length;j++){
+                        children[j].style.background = ''
+                    }
+                    e.target.style.background = '#f00'
+                }
+            }
+
+        </script>
+    </body>
+</html>
