@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+    <body><!—用户界面，一个DIV层和两个按钮-->  
+    <div id="divNames" style="width: 422px; height: 100px; border-right: blue 1px solid; border-top: blue 1px solid; border-left: blue 1px solid; border-bottom: blue 1px solid;">  
+    </div>  
+    <input id="Button1" type="button" value="升序" onclick="return Button_onclick(this.id)" />  
+    <input id="Button2" type="button" value="降序" onclick="return Button_onclick(this.id)"/>  
+<mce:script language="javascript" type="text/javascript">  
+// <!CDATA[  
+function Student( name, number )    // 学生对象构造函数  
+{  
+    this.name = name;           // 学生名字属性  
+    this.number = number;       // 学生名字属性  
+}  
+var students = new Array( new Student("John",4), new Student("Wendy",2), new Student("Vicky",5),  
+                            new Student("Kevin",1), new Student("Richard",3) ); // 5个学生  
+var g_orderRule;            // 规则开关  
+var names = "";             // 名字序列  
+for( x in students )            // 组合排序前的学生名字  
+{  
+    names += students[x].name + " ";  
+}  
+tn = document.createTextNode( names );  // 创建文节点，用于显示结果  
+var div = document.getElementById("divNames");  // 获取DIV层     
+div.appendChild(tn)         // 将文本节点添加为层的子节点  
+tn.nodeValue = names;           // 设置文本节点的文字属性  
+function Order( obj, funcRule)      // 排序函数  
+{  
+    if( (typeof(funcRule)!="function") || ( funcRule.length<2) ) // 检查参数的正确性  
+    {  
+        var e = new Error();        // 不正确则抛出异常  
+        e.message = "参数不符合要求";  
+        throw e;  
+    }  
+    for( n in obj )         // 遍历数据组，按回调函数的规则排序   
+    {  
+        for( m in obj )  
+        {  
+            // funcRule为外部回调函数，用户可在回调函数中实现自已的排序规则  
+            if( funcRule( obj[n].number, obj[m].number ) )  
+            {  
+                var tmp = obj[n];  
+                obj[n] = obj[m];  
+                obj[m] = tmp;  
+            }  
+        }  
+    }  
+    names = "";       
+    for( x in obj )       
+    {  
+        names += obj[x].name + " "; // 组合排序后的名字  
+    }  
+    tn.nodeValue = names;  
+}  
+function funcRule( arg1, arg2 )     // 排序规则回调函数  
+{  
+    if( (typeof(arg1) != "number")||(typeof(arg2) != "number") )    // 参数检查  
+    {  
+        var e1 = new Error();  
+        e1.message = "学生的序号属性为非数字";  
+        throw e1;  
+    }  
+    if( g_orderRule )           // 根据用户的选择设置排升规则  
+    {  
+        return arg1<arg2;        // 升序  
+    }  
+    else  
+    {  
+       return arg1>arg2;     // 降序  
+    }  
+}  
+function Button_onclick( objID )    // 按钮单击事件处理程序  
+{  
+    if( objID=="Button1" )  
+    {  
+        g_orderRule = true;  
+    }  
+    else  
+    {  
+        g_orderRule = false;  
+    }  
+    try  
+    {  
+        Order( students, funcRule );    // 排序并输出  
+    }  
+    catch( e )  
+    {  
+        alert(e.message);  
+    }  
+}  
+</mce:script>  
+</body> 
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width">
+        <style>
+            *{
+                margin:0;
+                padding: 0;
+            }
+            body,html{
+                width: 100%;
+                height:100%;
+                overflow:hidden;
+            }
+            #box{
+                height: 200px;
+                width:300%;
+                list-style: none;
+                position: absolute;
+            }
+            li{
+                float:left;
+                width:33.333%;
+                height:100%;
+                background: #f00;
+            }
+            div{
+                width:100%;
+                height:200px;
+                overflow: hidden;
+                position: relative;
+            }
+            p{
+                width:100px;
+                height:100px;
+                border:1px #000 solid;
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- <div>
+            <ul id='box'>
+                <li>1</li>
+                <li id='li'>2</li>
+                <li id='li2'>3</li>
+            </ul>
+        </div>
+        <p id='p'>
+
+        </p> -->
+        <input type="file" id='btn' multiple="multiple">
+        <script>
+            
+
+
+            function Fn() {
+                this.f()        // 返回obj
+                this.constructor.prototype.f()  // 返回Fn.prototype
+            }
+
+            Fn.prototype.f = function() {
+                return this
+            }
+            
+            const obj = new Fn()
+            
+            Fn.prototype.f()    // 返回Fn.prototype
+            obj.f()             // 返回obj
+
+            const newFunc = Fn.prototype.f
+            newFunc()           // 返回window
+
+
+
+
+
+
+
+
+
+
+            // Object.prototype.a = 'a'
+
+            // function Fn() {
+            //     // this.a = 'SL'
+            // }
+
+            // Fn.prototype = {
+            //     a: function(){console.log(this)},
+            //     // set a(value) {console.log('s set')},
+            //     // get a() {return 'get s'}
+            // }
+
+            // const obj = new Fn()
+
+            // class Son extends Fn {
+            //     set s(value) {console.log('s set')}
+            //     get s() {return 'get s'}
+            // }
+
+            // const son = new Son()
+
+            // // console.log(obj)
+            // obj.a()
+
+            // btn.onchange = function(){
+            //     const file = this.files
+            //     for(i = 0; i< file.length; i ++) {
+            //         var reader = new FileReader()
+            //         reader.readAsText(file[i])
+            //         console.log(file)
+            //         reader.onload = function(){
+            //             console.log(this)
+            //             document.body.innerHTML += `<img src=${this.result} />`
+            //         }
+            //     } 
+            // }
+
+            // const items = [
+            //     { name: '我', value: 21 },
+            //     { name: '你', value: 37 },
+            //     { name: '她', value: 45 },
+            //     { name: '他', value: -12 },
+            //     { name: '我', value: 13 },
+            //     { name: '你', value: 37 }
+            // ]
+
+            // items.sort((a,b) => {
+            //     const nameA = a.value
+            //     const nameB = b.value
+            //     if(nameA > nameB) return -1
+            //     if(nameA < nameB) return 1
+            //     return 0
+            // })
+
+            // console.log(items)
+
+
+            // const idx = [].indexOf.call(li2.parentNode.children,li2)
+            // alert(idx)
+            // box.ontouchstart = function(e){
+            //     const firstT = e.touches[0].clientX
+            //     const left = this.offsetLeft
+            //     this.ontouchmove = function(e){
+            //         const dis = e.touches[0].clientX - firstT + left
+            //         this.style.left = dis + 'px'
+            //     }
+            //     this.ontouchend = function(){
+            //         const oLiWidth = this.children[0].offsetWidth
+            //         const n = Math.round(this.offsetLeft/oLiWidth)
+            //         this.style.left = oLiWidth*n + 'px'
+            //     }
+            // }
+
+            // p.onmousedown = function(e){
+            //     const firstT = e.offsetX
+
+
+            //     this.onmousemove = function(e){
+            //         const dis = e.pageX - firstT
+            //         this.style.left = dis + 'px'
+            //     }
+            //     this.onmouseup = function(){
+            //         this.onmousemove = null
+            //     }
+            // }
+
+
+        
+        // var str = '';
+        // for(var row = 1;row < 9;row ++){
+        //     for(var space = 1;space <= 8 - row;space ++){
+        //         str += ' ';
+        //     }
+        //     for(var star = 1;star <= 2 * row - 1;star ++){
+        //         str += '*';
+        //     }
+        //     str += '\n';
+        // }
+        // console.log(str);
+        //一块钱1分2分5分有几种兑换方式
+        // let one = 1
+        // let two = 2
+        // let five = 5
+        // for(let i = 0;i < 11;i ++){
+        //     for(let j = 0;j < 6;j ++){
+        //         for(let k = 0;k < 3;k ++){
+        //             if(one*i + two*j + k*five == 10){
+        //                 console.log(i + '个' + one,j + '个' + two,k + '个'+ five)
+        //             }
+        //         }
+        //     }
+        // }
+
+            
+
+
+            // var dt=1;  //弧度0.5,大概30°
+            // function run(){
+            //     var r=100;
+            //     var Py=Math.sin(dt)*r;
+            //     var Px=Math.cos(dt)*r;
+            //     box.style.left = Px + 'px'
+            //     box.style.top = Py + 'px'
+                
+            //     const p = document.createElement('p')
+            //     p.className = 'p'
+            //     p.style.left = box.offsetLeft
+            //     p.style.top = box.offsetTop
+            //     document.body.appendChild(p)
+
+            //     dt+=0.03
+            // }
+            // window.setInterval('run()',10)
+
+
+
+            const reducer1 = (state = {a:1,b:2},action) => {
+                let newState = {...state}
+                const {type,data} = action
+
+                switch(type){
+                    case 'CHANGEA':
+                        newState.a = data
+                        break
+                    case 'CHANGEB':
+                        newState.b = data  
+                        break
+                    default: return newState
+                }
+
+                return newState
+            }
+            const reducer2 = (state = {c:3,d:4},action) => {
+                let newState = {...state}
+                const {type,data} = action
+
+                switch(type){
+                    case 'CHANGEC':
+                        newState.c = data
+                        break
+                    case 'CHANGED':
+                        newState.d = data  
+                        break
+                    default: return newState
+                }
+
+                return newState
+            }
+
+            const combineReducers = reducers => (
+                (state={},action) => (
+                    Object.keys(reducers).reduce( (prev,next) => {
+                        prev[next] = reducers[next](state[next], action)
+                        return prev
+                    },{})
+                )
+            )
+
+            const reducer = combineReducers({
+                reducer1,
+                reducer2
+            })
+
+            const combineReducers = (reducers) => {
+                return (state, action) => (
+                    Object.keys(reducers).reduce((pre, key) => {
+                        pre[key] = reducers[key](state[key], action)
+                        return pre
+                    }, {})
+                )
+            }
+            
+            const createStore = function(reducer){
+                let state
+                let listeners = []
+
+                const getState = () => state
+
+                const dispatch = action => {
+                    state = reducer(state,action)
+                    listeners.forEach( item => item())
+                }
+
+                const subscribe = listener => {
+                    listeners.push(listener)
+                    return () => {
+                        listeners = listeners.filter( item => item != listener)
+                    }
+                }
+
+                dispatch({})
+
+                return {dispatch,subscribe,getState}
+            }
+
+            const store = createStore(reducer)
+
+            store.subscribe( () => {console.log(1)})
+            store.subscribe( () => {console.log(2)})
+
+            console.log(store.getState())
+
+            store.dispatch({
+                type: 'CHANGEA',
+                data: 555
+            })
+            store.dispatch({
+                type: 'CHANGEC',
+                data: 555
+            })
+            console.log(store.getState())
+
+
+
+            // function fn1(){console.log('subscribe-fn1')}
+            // function fn2(){console.log('subscribe-fn2')}
+
+            // const reducer1 = (state={a:1,b:2},action) => {
+            //     let newState = {...state}
+            //     const {type,data} = action
+
+            //     switch(type){
+            //         case 'CHANGE1a': newState.a = data
+            //             break
+            //         case 'CHANGE1b': newState.b = data
+            //             break
+            //     }
+
+            //     return newState
+            // }
+            // const reducer2 = (state={c:3,d:4},action) => {
+            //     let newState = {...state}
+            //     const {type,data} = action
+
+            //     switch(type){
+            //         case 'CHANGE2c': newState.c = data
+            //             break
+            //         case 'CHANGE2d': newState.d = data
+            //             break
+            //     }
+
+            //     return newState
+            // }
+
+            // // const combineReducers = (reducers) => {
+            // //     return (state={},action) => (
+            // //         Object.keys(reducers).reduce( (prev,next) => {
+            // //             prev[next] = reducers[next](state[next],action)
+            // //             return prev
+            // //         },{})
+            // //     )
+            // // }
+            // const combineReducers = function(reducers){
+            //     return (state={},action) => (
+            //         Object.keys(reducers).reduce( (prev,next) => {
+            //             prev[next] = reducers[next](state[next],action)
+            //             return prev
+            //         },{})
+            //     )
+            // }
+
+            // const reducer = combineReducers({
+            //     reducer1,
+            //     reducer2
+            // })
+            
+            // const createStore = (reducer) => {
+            //     let state
+            //     let listeners = []
+
+            //     const getState = () => state
+
+            //     const dispatch = (action={}) => {
+            //         state = reducer(state,action)
+            //         listeners.forEach( item => item() )
+            //     }
+
+            //     const subscribe = function(listener){
+            //         listeners.push(listener)
+            //         return () => {
+            //             listeners = listeners.filter( item => item !== listener)
+            //         }
+            //     }
+
+            //     dispatch({})
+
+            //     return {getState,dispatch,subscribe}
+            // }
+
+            // const store = createStore(reducer)
+
+            // store.subscribe(fn1)
+            // store.subscribe(fn2)
+
+            // console.log(store.getState())
+
+            // store.dispatch({
+            //     type: 'CHANGE1a',
+            //     data: 555
+            // }),
+            // store.dispatch({
+            //     type: 'CHANGE2d',
+            //     data: 555
+            // })
+
+            // console.log(store.getState())
+
+        </script>
+    </body>
+</html>

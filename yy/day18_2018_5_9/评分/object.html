@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			var obj = {
+				name:1,
+				age:2,
+			}
+			
+			
+			
+			function Fn(name,age){
+				this.n = name;
+				this.a = age;
+				obj.na();
+				
+				this.na = function(){
+					return 1;
+				}
+			}
+			var obj = new Fn('yy',20);
+			
+		</script>
+	</body>
+</html>

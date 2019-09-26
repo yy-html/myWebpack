@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "async": "^2.6.1",
+    "cheerio": "^1.0.0-rc.2",
+    "mongodb": "^2.2.35"
+  }
+}

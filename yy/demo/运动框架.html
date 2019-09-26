@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body {
+				height:5000px;
+			}
+			#box {
+				width:100px;
+				height:100px;
+				background:#000;
+				position:absolute;
+				opacity:0.3;
+				filter:alpha(opacity=30);
+			}
+		</style>
+	</head>
+	<div id='box'></div>
+	<body>
+		<script>
+			
+//			匀速运动		
+			var box = document.getElementById('box');
+			var timer;	//timer建在function里面会导致onclick事件点击之后加速运动；
+ 
+			document.onclick = function(){
+				start(box,200)
+			}
+//			box.onmouseleave = function(){
+//				start(box,100)
+//			}
+			
+			function start(obj,condition){
+				clearInterval(timer);	//防止启动多个计时器 每执行一次把上次开启的计时器删掉；不删除还会导致onclick事件点击之后加速运动；
+				timer = setInterval(function(){
+					var speed = condition > obj.offsetLeft ? 7 : -7;		//用来接受一个条件 判断是正向运动还是反向运动 来决定加减号；
+					if(Math.abs(condition - obj.offsetLeft) < Math.abs(speed)){	//1.判断:若计时器下一次的加的px超过了目标位置 
+						obj.style.left = condition +'px';	//2.则让obj直接到达目标位置(解决抖动)
+						clearInterval(timer);	//3.然后停止计时器；
+					}
+					obj.style.left = obj.offsetLeft + speed +'px';	//每隔30毫秒给obj.style.left 加speed px；
+					
+					console.log(obj.offsetLeft,speed)
+				},50)
+			}
+			
+
+//			缓冲运动
+ 			var box = document.getElementById('box');
+			
+			
+			box.onmouseover = function(){
+				start(box,300)
+			}
+			box.onmouseout = function(){
+				start(box,100)
+			}
+			
+			function start(obj,condition){
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function(){
+					var speed = (condition - obj.offsetLeft) / 8;		//obj的即时距离距目标的距离越近 速度越慢 值为负数 则反方向运动；
+					speed = speed < 0 ? Math.floor(speed) : Math.ceil(speed);		//0.23 大于0向上取整；-0.23 小于0向下取整；
+					if(obj.offsetLeft === condition){	//obj的即时距离等于目标的位置
+						clearInterval(obj.timer);	//停止计时器；
+					}else{
+						obj.style.left = obj.offsetLeft + speed +'px';
+					}
+					console.log(obj.offsetLeft,condition,speed)
+				},30)
+			}
+			
+			
+			
+//			透明度
+			var box = document.getElementById('box');
+			
+			box.onmouseover = function(){
+				start(box,100);
+			}
+			box.onmouseout = function(){
+				start(box,10);
+			}
+			
+			function getStyle(obj,attr){
+				return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj,1)[attr];
+			}	//获取非行内样式属性的兼容
+			function start(obj,condition){
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function(){
+					var value = parseInt(getStyle(obj,'opacity')*100);	
+					var speed = (condition - value) / 20;
+					speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);		
+					if(value === condition){
+						clearInterval(obj.timer);
+					}else{
+						obj.style.opacity = (value + speed) / 100;
+						obj.style.filter = 'alpha(opacity=' + (value + speed) + ')';
+					}
+				},30)
+			}
+
+//			多物体单属性运动；		
+			var box = document.getElementById('box');
+			var div = document.getElementById('div');
+			
+			
+			div.onmouseover = function(){
+				start(div,'opacity',100)
+			}
+			div.onmouseout = function(){
+				start(div,'opacity',20)
+			}
+			box.onmouseover = function(){
+				start(box,'width',300)
+			}
+			box.onmouseout = function(){
+				start(box,'width',100)
+			}
+			
+			function getStyle(obj,attr){
+				return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj,1)[attr];
+			}	//获取非行内样式属性的兼容
+			
+			function start(obj,attr,condition){
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function(){
+					var value = attr === 'opacity' ? parseInt(getStyle(obj,attr)*100) : parseInt(getStyle(obj,attr));	//获取当前值 取整；
+					//设置速度 小数 基数越大 速度越小 达到目标值的事件就越长 变化过程就越慢；
+					var speed = (condition - value) / 10;	
+					speed = speed < 0 ? Math.floor(speed) : Math.ceil(speed);		//当缓冲速度最后小于1的时候 取整以达到目标值；
+					if(value === condition){
+						clearInterval(obj.timer);
+					}else{
+						if(attr === 'opacity'){
+							obj.style.opacity = (value + speed) / 100;
+							obj.style.filter = 'alpha(opacity=' + (value + speed) + ')';
+						}else{
+							obj.style[attr] = value + speed +'px';
+						}
+					console.log(condition,value,speed)
+					}
+					
+				},30)
+			}
+			
+			
+//			上下滑动的侧边栏；
+			var box = document.getElementById('box');
+ 			document.onscroll = function(){
+ 				var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+ 				var vl = Math.floor(document.documentElement.clientHeight / 2 - (box.offsetHeight / 2) + scrollTop);
+ 					start(box,'top',vl）
+ 			}
+
+
+			var box = document.getElementById('box');
+			var json1 = {
+				"width":101,
+				"opacity":100,
+			}
+			var json2 = {
+				"width":100,
+				"height":100,
+				"opacity":30,
+			}
+			box.onmouseover = function(){
+				start(box,json1,function(){
+					start(box,{"height":200})
+				});
+			}
+			box.onmouseout = function(){
+				start(box,{"height":100},function(){
+					start(box,json2)
+				});
+			}
+//			完美运动框架：多物体多属性同时或依次运动；
+			function getStyle(obj,attr){
+				return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj,1)[attr];
+			}	//获取元素-即时-非行内样式；
+			
+			function start(obj,json,fn){
+				clearInterval(obj.timer);	//清除上一个计时器：解决不变回去或物体加速的问题；在计时器外；
+				obj.timer = setInterval(function(){	//设置计时器；
+					var stop = true;		//声明停止条件（任意两个值）；在计时器内 每次启动都重新赋值为ture；
+					for(var attr in json){	//遍历传进来的json多属性；
+						var value = attr === 'opacity' ? parseInt(getStyle(obj,attr)*100) :parseInt(getStyle(obj,attr));	//获取元素-即时-非行内样值；
+						//设置物体运动速度（缓冲）；即时属性距离传来的目标属性越近 速度越慢；基数越大，物体速度越慢，运动越慢；
+						var speed = (json[attr] - value) / 8;
+						speed = speed < 0 ? Math.floor(speed) : Math.ceil(speed);		////当缓冲速度最后小于1的时候 取整以达到目标值；
+						if(attr === 'opacity'){		//属性分两类：1.不带px的透明值；2.带px的；判断遍历的此属性是哪类属性；
+							obj.style.opacity = (value + speed) / 100;
+							obj.style.filter = 'alpha(opacity=' + (value + speed) + ')';
+						}else{
+							obj.style[attr] = value + speed +'px';
+						}
+						if(value != json[attr]){	//当物体当前属性没到达目标值时，拦截改变停止条件；当所有的属性都到达目标值才越过拦截条件；优先到达目标值的属性会原地踏步走speed=0；
+							stop = false;
+						}
+					}
+					console.log(attr,speed,value,json[attr]);	//循环外 计时器内；当所有的属性都到达目标值时停止计时器；
+					if(stop){
+						clearInterval(obj.timer);
+						fn();		//多属性依次运动 第三个值为函数，函数内是第二步要执行的运动，当第一个运动执行完，停止计时器并回调第二个要执行的运动；
+					}
+				},30)
+			}
+			
+			
+		</script>
+	</body>
+</html>

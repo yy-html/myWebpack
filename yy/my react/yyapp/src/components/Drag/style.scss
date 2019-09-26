@@ -1,0 +1,9 @@
+.className{
+    border: 1px #000 solid;
+}
+.drag{
+    composes: className;
+    height: 50px;
+    text-align: center;
+    position:relative;
+}

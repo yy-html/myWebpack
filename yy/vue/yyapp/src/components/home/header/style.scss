@@ -1,0 +1,18 @@
+@import '@/lib/reset.scss';
+
+header{
+    @include rect(100%,1.2rem);
+    @include background-color(pink);
+    ul{
+        @include wrap(false);
+        @include rect(auto,0.4rem);
+        @include overflow();
+        li{
+            display: inline-block;
+            @include rect(2rem,auto);
+            @include padding(0 5px);
+            @include line-height(0.4rem);
+            @include border(0 0 1px 0,#000);
+        }
+    }
+}

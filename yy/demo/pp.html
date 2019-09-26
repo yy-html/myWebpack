@@ -1,0 +1,31 @@
+<!DCTYPE>
+<html>
+    <head>
+        <title></title>
+        <meta charset='utf-8'>
+    </head>
+    <body>
+        <script>
+
+            
+            var arr  =  ['src1','src2','src3','src4']
+            var num = 0
+            function fn(){
+                if(num > arr.length) return
+                return new Promise(function(resolve,reject){
+                    var img = new Image()
+                    img.src = arr[num]
+                    img.onload = function(){
+                        num ++
+                        document.body.appendChild(img)
+                        resolve()
+                    }
+                }).then(function(){
+                    fn()
+                })
+            }
+
+            fn()
+        </script>
+    </body>
+</html>

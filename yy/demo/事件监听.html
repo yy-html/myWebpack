@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			//事件兼听兼容 标准浏览器：obj.addEventListener('事件',函数,布尔值)； IE低版本：obj.attachEvent('事件驱动on',函数);
+			function fn1(){
+				alert(1);
+			}
+			function fn2(){
+				alert(2);
+			}
+			function fn3(){
+				alert(3);
+			}
+			/*document.addEventListener('',fn1,false);
+			document.addEventListener('click',fn2,false);
+			document.addEventListener('click',fn3,false);*/
+			function aelistener(obj,evt,fn,boo){
+				if(obj.addEventListener){
+					obj.addEventListener(evt,fn,boo);
+				}else{
+					obj.attachEvent('on' + evt,fn);
+				}
+			}
+			aelistener(document,'click',fn1,false);
+			aelistener(document,'click',fn2,false);
+			aelistener(document,'click',fn3,false);
+			//删除事件驱动兼容 obj.removeEventListener('事件',函数,布尔值)； IE低版本：obj.detachEvent('事件驱动on',函数);
+			/*document.removeEventListener('click',fn2,false);*/
+			function relistener(obj,evt,fn,boo){
+				if(obj.removeEventListener){
+					obj.removeEventListener(evt,fn,boo);
+				}else{
+					obj.detechEvent('on' + evt,fn);
+				}
+			}
+			relistener(document,'click',fn2,false);
+			
+			
+		</script>
+	</body>
+</html>

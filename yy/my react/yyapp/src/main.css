@@ -1,0 +1,47 @@
+
+
+body,html,#root{
+    height:100%;
+    width:100%;
+    background: #fff;
+    overflow: auto
+}
+
+.active{
+    color: #f00;
+}
+
+.none{
+    opacity: 0;
+    transition: all 1s;
+}
+.block{
+    opacity: 1;
+    transition: all 1s;
+}
+
+.fade-appear{
+    opacity: 0.01;
+}
+.fade-appear-active{
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+
+.fade-enter {
+    opacity: 0.01;
+  }
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+.fade-enter-done{}
+.fade-exit {
+    opacity: 1;
+}
+.fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 500ms ease-in;
+}
+.fade-enter-done{}

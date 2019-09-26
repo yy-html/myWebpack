@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin:0;
+				padding:0
+			}
+			div{
+				width:900px;
+				margin:0 auto;
+				border:1px #000 solid;
+				overflow:hidden;
+			}
+			ul{
+				width:290px;
+				margin:0 5px 0;
+				float:left;
+			}
+			li{
+				margin:5px 0 5px;
+				list-style: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<ul></ul>
+			<ul></ul>
+			<ul></ul>
+		</div>
+		<script src='js/jquery-1.11.3.js'></script>
+		<script>
+			window.onload = function(){
+				new Fn();
+			}
+			
+			class Fn{
+				constructor(){
+					this.init();
+				}
+				init(){
+					this.load();
+					this.scroll();
+				}
+				load(n){
+					var num = n || 30;
+//					console.log(num);
+					for(var i = 0;i < num;i ++){
+						var color = '#' + Math.floor(Math.random()*0xffffff).toString(16);
+						var height = Math.random()*250 + 80;
+						var $li = $('<li style="width:290px;"></li>');
+						$li.css({
+							background : color,
+							height,
+						})
+						$('ul').eq(this.minHeight()).append($li);
+					}
+				}
+				minHeight(){
+					var minH = $('ul:eq(0)').outerHeight();
+					var index = 0;
+					for(var i = 0;i < $('ul').length;i ++){
+						if($('ul').eq(i).outerHeight() < minH){
+							minH = $('ul').eq(i).outerHeight();
+							index = $('ul').eq(i).index();
+						}
+					}
+//					console.log(index);
+					return index;
+				}
+				scroll(){
+					var that = this;
+					$(window).scroll(function(){
+						console.log($(document).scrollTop(),$(window).height(),$(document).outerHeight(true))
+						if($(document).scrollTop() + $(window).height() > $(document).outerHeight(true)*0.8){
+							that.load(10);
+						}
+					})
+				}
+			}
+		</script>
+	</body>
+</html>

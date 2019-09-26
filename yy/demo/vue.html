@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		.active{
+			color : #f00;
+		}
+	</style>
+	<body>
+		
+		<div id="box">
+			
+		</div>
+		
+	</body>
+	
+	<template id='son'>
+		<div>
+			
+		</div>
+	</template>
+
+	
+	<script src='js/jquery-1.11.3.js'></script>
+	<script src='js/vue.js'></script>
+	<script>
+
+
+// 		const Child = {
+// 			template : '#child',
+// 			props : ['val'],
+// 			data(){
+// 				return{
+					
+// 				}
+// 			}
+// 		}
+		
+// 		const ClickTest = {
+// 			template : '#clickTest',
+// 			data(){
+// 				return {
+// 					num : 0,
+// 					testNum : 3,
+// 				}
+// 			},
+// 			components : {
+// 				'v-child' : Child,
+// 			},
+// 			mounted(){
+// 				console.log('clicktest',this)
+// 			}
+// 		}
+		
+// //		Vue.component('click-test',ClickTest);
+		
+// 		var vm = new Vue({
+// 			el : '#box',
+// 			data : {
+// 				msg: 1
+// 			},
+// 			components : {
+// 				'click-test' : ClickTest,
+// 			},
+// 			mounted(){
+// 				console.log('box',this)
+// 			},
+// 			methods: {
+// 				fn(){
+// 					this.msg = 2
+// 					this.$nextTick(function(){
+// 						console.log(this.$refs.p.innerHTML)
+// 					})
+// 				}
+// 			}
+// 		})
+				
+//computed:getter + setter方法
+//			<div id="box">
+//				<input type="text" v-model='firstname' />
+//				<input type="text" v-model='lastname' />
+//				<p>{{fullname}}</p>
+//			</div>
+//			var vue = new Vue({
+//				el : '#box',
+//				data : {
+//					firstname : '',
+//					lastname : '',
+//				},
+//				computed : {
+//					fullname : {
+//						get(){
+//							return this.firstname + this.lastname;
+//						},
+//						set(val){
+//							this.firstname = val.split(' ')[0];
+//							this.lastname = val.split(' ')[1];
+//						}
+//					}
+//				}
+//			})
+//			vue.fullname = 'y1 y2';
+//watch方法
+//			<div id="box">
+//				<input type="text" v-model='firstname' />
+//				<input type="text" v-model='lastname' />
+//				<p>{{fullname}}</p>
+//			</div>
+//			var vue = new Vue({
+//				el : '#box',
+//				data : {
+//					firstname : '',
+//					lastname : '',
+//					fullname : '',
+//				},
+//				watch : {
+//					firstname(newVal,oldVal){
+//						this.fullname = newVal + this.lastname;
+//					},
+//					lastname(newVal,oldVal){
+//						this.fullname = this.firstname + newVal;
+//					}
+//				}
+//			})	
+//methods和computed方法
+//			<div id="box">
+//				<input type="text" v-model='firstname' />
+//				<input type="text" v-model='lastname' />
+//				<p>{{fullname()}}</p>
+//			</div>
+//			var vue = new Vue({
+//				el : '#box',
+//				data : {
+//					firstname : '',
+//					lastname : ''
+//				},
+//				computed : {	//	methods
+//					fullname(){
+//						return this.firstname + this.lastname;
+//					}
+//				}
+//			})
+
+
+
+//			<div id="box">
+//				<button v-on:click='fn()'></button>
+//				<div v-if='seen'>div1</div>
+//				<div v-if='seen'>div2</div> // <div v-else>div2</div>
+//			</div>
+//			var vue = new Vue({
+//				el : '#box',
+//				data : {
+//					seen : true,
+//				},
+//				methods : {
+//					fn(){
+//						this.seen == false ? this.seen = true : this.seen = false;
+//					}
+//				}
+//			})
+
+//			<div id="box">
+//				<button v-on:click='fn(1)'>click1</button>
+//				<button v-on:click='fn(2)'>click2</button>
+//				<button v-on:click='fn(3)'>click3</button>
+//				<div v-if='index == 1'>div1</div>
+//				<div v-if='index == 2'>div2</div>
+//				<div v-if='index == 3'>div3</div>
+//			</div>
+//			var vue = new Vue({
+//				el : '#box',
+//				data : {
+//					index : 0,
+//				},
+//				methods : {
+//					fn(num){
+//						this.index = num;
+//					}
+//				}
+//			})
+	</script>
+</html>

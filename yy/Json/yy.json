@@ -1,0 +1,174 @@
+[
+{
+	"luzhoulaojiao" : {
+		"name" : "泸州老窖",
+		"banner" : "banner.jpg",
+		"bannerin" : "bannerin.jpg",
+		"small" : [
+		{
+			"smallimg1" : "small1.png",
+			"smalltext" : "38°百年泸州老窖窖龄30年 500ml",
+			"smallp" : "¥200.00"
+		},
+		{
+			"smallimg1" : "small2.png",
+			"smalltext" : "52°泸州典藏6/K",
+			"smallp" : "¥258.00"
+		},
+		{
+			"smallimg1" : "small3.png",
+			"smalltext" : "泸州老窖小特曲50ml",
+			"smallp" : "¥198.00"
+		},
+		{
+			"smallimg1" : "small4.png",
+			"smalltext" : "52°泸州老窖特曲 500ml",
+			"smallp" : "¥58.00"
+		},
+		{
+			"smallimg1" : "small5.png",
+			"smalltext" : "41.8°泸州原酿天典典藏8",
+			"smallp" : "¥200.00"
+		}
+		],
+		"medium" : [
+		{
+			"mediumimg1" : "medium1.png",
+			"mediumtext" : "52°泸州老窖头曲 500ml（6瓶装）",
+			"mediump" : "¥528.00",
+			"mediumt" : "1470"
+		},
+		{
+			"mediumimg1" : "medium2.png",
+			"mediumtext" : "52°泸州老窖 永盛烧坊蓝八系列 500ml（6瓶装）",
+			"mediump" : "¥448.00",
+			"mediumt" : "842"
+		},
+		{
+			"mediumimg1" : "medium3.png",
+			"mediumtext" : "52°泸州老窖特曲 500ml",
+			"mediump" : "¥248.00",
+			"mediumt" : "425"
+		},
+		{
+			"mediumimg1" : "medium4.png",
+			"mediumtext" : "52°泸州窖酒（窖藏龙窖） 500ml（6瓶装）",
+			"mediump" : "¥218.00",
+			"mediumt" : "184"
+		},
+		{
+			"mediumimg1" : "medium5.png",
+			"mediumtext" : "41.8°泸州原酿天典典藏8",
+			"mediump" : "¥188.00",
+			"mediumt" : "95"
+		}
+		],
+		"big" : [
+		{
+			"bigid" : "0",
+			"bigimg1" : "big1-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "52°泸州老窖头曲 500ml",
+			"bigp" : "88.00",
+			"bigt" : "2599",
+			"bigfrom" : "中酒自营",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{
+			"bigid" : "1",
+			"bigimg1" : "big2-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "52°泸州老窖头曲 500ml（2瓶装）",
+			"bigp" : "176.00",
+			"bigt" : "749",
+			"bigfrom" : "中酒自营",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{
+			"bigid" : "2",
+			"bigimg1" : "big3-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "52°泸州老窖头曲 500ml（6瓶装）",
+			"bigp" : "528.00",
+			"bigt" : "645",
+			"bigfrom" : "中酒自营",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{	
+			"bigid" : "3",
+			"bigimg1" : "big4-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "52°泸州老窖特曲 500ml",
+			"bigp" : "248.00",
+			"bigt" : "223",
+			"bigfrom" : "中酒连锁南溪旗舰店",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{
+			"bigid" : "4",
+			"bigimg1" : "big5-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "52°泸州老窖特曲 500ml（6瓶装）",
+			"bigp" : "1488.00",
+			"bigt" : "452",
+			"bigfrom" : "NICESHOP",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{
+			"bigid" : "5",
+			"bigimg1" : "big6-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "52°泸州老窖百年珍品500ml",
+			"bigp" : "379.00",
+			"bigt" : "140",
+			"bigfrom" : "中酒连锁南溪旗舰店",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{
+			"bigid" : "6",
+			"bigimg1" : "big7-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "38°泸州老窖百年珍藏500ml",
+			"bigp" : "229.00",
+			"bigt" : "132",
+			"bigfrom" : "中酒连锁南溪旗舰店",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		},
+		{
+			"bigid" : "7",
+			"bigimg1" : "big8-1.png",
+			"bigimg2" : "big1-2.png",
+			"bigimg3" : "big1-3.png",
+			"bigtext" : "38°泸州老窖喜酒A10 500ml",
+			"bigp" : "109.00",
+			"bigt" : "117",
+			"bigfrom" : "中酒自营",
+			"bigin1" : "big1in1.png",
+			"bigin2" : "big1in2.png",
+			"bigin3" : "big1in3.png"
+		}
+		]
+	}
+}
+]	

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			* {
+				margin:0;
+				padding:0;
+			}
+			li {
+				list-style:none;
+			}
+			a {
+				text-align:center;
+				line-height:100px;
+				text-decoration:none;
+				font-size:30px;
+			}
+			#box {
+				width:500px;
+				height:620px;
+				border:1px solid #000;
+				margin:50px auto;
+				overflow:hidden;
+			}
+				#top {
+					position:relative;
+					height:500px;
+				}
+					#top ul li {
+						position:absolute;
+					}
+					#top ul #left {
+						width:250px;
+						height:500px;
+						position:absolute;
+						top:0;
+						left:0;
+						z-index:1000;
+					}
+					#top ul #right {
+						width:250px;
+						height:500px;
+						position:absolute;
+						top:0;
+						right:0;
+						z-index:1000;
+					}
+					#top ul #btnl {
+						position:absolute;
+						width:50px;
+						height:100px;
+						opacity:0;
+						filter:alpha(opacity=0);
+						left:0;
+						top:200px;
+						border:2px solid #fff;
+						z-index:1001;
+					}
+					#top ul #btnr {
+						position:absolute;
+						width:50px;
+						height:100px;
+						opacity:0;
+						filter:alpha(opacity=0);
+						right:0;
+						top:200px;
+						border:2px solid #fff;
+						z-index:1001;
+					}
+				#bottom {
+					position:relative;
+					
+				}
+					#bottom ul {
+						position:absolute;
+						top:0;
+						left:0;
+						margin-top:10px;
+					}
+						#bottom ul li {
+							float:left;
+							border-left:5.3px solid #fff;
+							border-right:5.3px solid #fff;
+						}
+		</style>
+	</head>
+	<body>
+		<div id='box'>
+			<div id='top'>
+				<ul id='bigul'>
+					<div id='left'></div>
+					<div id='right'></div>
+					<a href="#" id='btnl'>⬅️</a>
+					<a href="#" id='btnr'>➡️</a>
+					<li style='width:500px;height:500px;background:#f00;z-index:1;'></li>
+					<li style='width:500px;height:500px;background:#000'></li>
+					<li style='width:500px;height:500px;background:#00f'></li>
+					<li style='width:500px;height:500px;background:#0f0'></li>
+					<li style='width:500px;height:500px;background:#999'></li>
+				</ul>
+			</div>
+			<div id='bottom'>
+				<ul id='smallul'>
+					<li style='width:156px;height:100px;background:#f00'></li>
+					<li style='width:156px;height:100px;background:#000'></li>
+					<li style='width:156px;height:100px;background:#00f'></li>
+					<li style='width:156px;height:100px;background:#0f0'></li>
+					<li style='width:156px;height:100px;background:#999'></li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			
+			function getStyle(obj,attr){
+				return obj.currenStyle ? obj.currenStyle[attr] : getComputedStyle(obj,1)[attr];
+			}
+			
+			function start(obj,json,fn){
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function(){
+					var stop = true;
+					for(var attr in json){
+						var value = attr === 'opacity' ? parseInt(getStyle(obj,attr)*100) : parseInt(getStyle(obj,attr));
+						var speed = (json[attr] - value) / 8;
+						speed = speed < 0 ? Math.floor(speed) : Math.ceil(speed);
+						if(attr === 'opacity'){
+							obj.style.opacity = (value + speed) / 100;
+							obj.style.filter = 'alpha(opacity=' + (value + speed) + ')';
+						}else{
+							obj.style[attr] = value + speed + 'px';
+						}
+						if(value != json[attr]){
+							stop = false;
+						}
+					}
+					if(stop){
+						clearInterval(obj.timer);
+//						fn();
+					}
+				},30)
+				
+			}
+			
+			
+			
+			var oBox = document.getElementById('box'),
+				oTop = document.getElementById('top'),
+				oBottom = document.getElementById('bottom'),
+				
+				oLeft = document.getElementById('left'),
+				oRight = document.getElementById('right'),
+				
+				oBtnL = document.getElementById('btnl'),
+				oBtnR = document.getElementById('btnr'),
+				
+				oBigUl = document.getElementById('bigul'),
+				oSmallUl = document.getElementById('smallul'),
+				
+				oBigLi = oBigUl.getElementsByTagName('li'),
+				oSmallLi = oSmallUl.getElementsByTagName('li');
+				
+				oSmallUl.style.width = oSmallLi[0].offsetWidth*oSmallLi.length +'px';
+				
+				oLeft.onmouseenter = oBtnL.onmouseenter = function(){
+					start(oBtnL,{opacity:100});
+				}
+				oLeft.onmouseleave = oBtnL.onmouseleave = function(){
+					start(oBtnL,{opacity:0});
+				}
+				
+				oRight.onmouseenter = oBtnR.onmouseenter = function(){
+					start(oBtnR,{opacity:100});
+				}
+				oRight.onmouseleave = oBtnR.onmouseleave = function(){
+					start(oBtnR,{opacity:0});
+				}
+				
+				var num = 0;
+				var zIndex = 1;
+				var timer;
+				autoplay();
+				slider();
+				
+				oBtnR.onclick = function(){
+					num ++;
+					if(num >= oBigLi.length){
+						num = 0;
+					}
+					slider();
+				}
+				oBtnL.onclick = function(){
+					num --;
+					if(num < 0){
+						num = oBigLi.length - 1;
+					}
+					slider();
+				}
+				
+				for(var i = 0,length = oSmallLi.length;i < length;i ++){
+					oSmallLi[i].index = i;
+					
+					oSmallLi[i].onmouseenter = function(){
+						start(this,{opacity:100});
+					}
+					oSmallLi[i].onmouseleave = function(){
+						if(this.index != num){
+							start(this,{opacity:30});
+						}
+					}
+					oSmallLi[i].onclick = function(){
+						num = this.index;
+						slider();
+						
+					}
+				}
+				
+				function slider(){
+					zIndex ++;
+					oBigLi[num].style.zIndex = zIndex;
+					
+					if(num === 0){
+						start(oSmallUl,{left:0});
+					}else{
+						if(num === oBigLi.length - 1){
+							start(oSmallUl,{left:-(oSmallLi.length - 3)*oSmallLi[0].offsetWidth});
+						}else{
+							start(oSmallUl,{left:-(num - 1)*oSmallLi[0].offsetWidth});
+						}
+					}
+					for(var i = 0,length = oSmallLi.length;i < length;i ++){
+						start(oSmallLi[i],{opacity:30});
+					}
+					start(oSmallLi[num],{opacity:100});
+				}
+				
+				
+				function autoplay(){
+					timer = setInterval(function(){
+						num ++;
+						if(num >= oSmallLi.length){
+							num = 0;
+						}
+						slider();
+					},2000)
+				}
+				
+				box.onmouseenter = function(){
+					clearInterval(timer);
+				}
+				box.onmouseleave = function(){
+					autoplay();
+				}
+				
+				
+				
+				
+				
+				
+		</script>
+	</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.box{
+				width:400px;
+				height:200px;
+				border:1px solid #000;
+				position:absolute;
+				background:#000;
+			}
+			.box2{
+				width:400px;
+				height:50px;
+				background:#999;
+			}
+			.x{
+				width:50px;
+				height:50px;
+				background:#f00;
+				position:absolute;
+				top:0;
+				right:0;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<button id='btn'>点</button>
+		<script src='js/gongjv.js'></script>
+		<script>
+			var oBtn = document.getElementById('btn');
+			oBtn.onclick = function(){
+				new Bg().i();
+				new Box();
+			}
+			
+			function Bg(){
+				if(!Bg.instanse){
+					Bg.instanse = {
+						obj : document.createElement('div'),
+						i : function(){
+							document.documentElement.appendChild(this.obj);
+							this.obj.style.position = 'absolute';
+							this.obj.style.width = '100%';
+							this.obj.style.height = '100%';
+							this.obj.style.top = 0;
+							this.obj.style.background = 'rgba(0,0,0,.5)';
+						}
+					}
+				}
+				return Bg.instanse;
+			}
+			
+			
+			class Box{
+				constructor(){
+					this.oBox = document.createElement('div');
+					this.i()
+				}
+				i(){
+					document.documentElement.appendChild(this.oBox);
+					this.oBox.className = 'box';
+					this.oBox.style.top = document.documentElement.clientHeight/2 - this.oBox.offsetHeight/2 + 'px';
+					this.oBox.style.left = document.documentElement.clientWidth/2 - this.oBox.offsetWidth/2 + 'px';
+					this.oBox2 = document.createElement('div');
+					this.oBox.appendChild(this.oBox2);
+					this.oBox2.className = 'box2';
+					this.oBox2.id = 'box2';
+					new Drag('box2');
+					this.x();
+				}
+				x(){
+					this.x = document.createElement('div');
+					this.oBox.appendChild(this.x);
+					this.x.className = 'x';
+					this.x.onclick = function(){
+						this.remove();
+					}.bind(this);
+				}
+				remove(){
+					document.documentElement.removeChild(this.oBox);
+					document.documentElement.removeChild(new Bg().obj);
+				}
+			}
+			
+			class Drag{
+				constructor(id){
+					this.obj = document.getElementById(id);
+					this.obj.onmousedown = function(evt){
+						this.objmousedown(evt);
+					}.bind(this);
+				}
+				objmousedown(evt){
+					this.e = evt || window.event;
+					document.onmousemove = function(evt2){
+						this.dcmtmousemove(evt2);
+					}.bind(this);
+					document.onmouseup = function(){
+						this.dcmtmouseup();
+					}.bind(this);
+					document.ondragstart = function(){
+						return false;
+					}
+				}
+				dcmtmousemove(evt2){
+					this.e2 = evt2 || window.event;
+					this.left = this.e2.pageX - this.e.offsetX;
+					this.top = this.e2.pageY - this.e.offsetY;
+					this.obj.parentNode.style.left = this.left + 'px';
+					this.obj.parentNode.style.top = this.top + 'px';
+				}
+				dcmtmouseup(){
+					document.onmousemove = null;
+				}
+			}
+		</script>
+	</body>
+</html>

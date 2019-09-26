@@ -1,0 +1,217 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta charset='utf-8'>
+        <style>
+            ul{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -20%;
+                bottom: 0;
+                margin: auto;
+                width: 980px;
+                height: 220px;
+                padding: 0;
+            }
+            li{
+                width: 300px;
+                overflow: hidden;
+                height: 200px;
+                border: 1px #ccc solid;
+                position: relative;
+                display: inline-block;
+                text-align: center;
+                line-height: 200px;
+            }
+            .box{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: pink;
+                top: -100%;
+                left: -100%;
+                font-size: 40px;
+                color: #fff;    
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+
+
+        <button id='btn'>btn</button>
+
+        <ul id='ul'>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        
+        <script>
+            const divDirection = {
+                top: {
+                    top: '-100%',
+                    left: 0
+                },
+                bottom: {
+                    top: '100%',
+                    left: 0
+                },
+                left: {
+                    top: 0,
+                    left: '-100%'
+                },
+                right: {
+                    top: 0,
+                    left: '100%'
+                }
+            }
+
+            function mounseDirection(el,{enterEvent,leaveEvent}){
+                const directionType = ['bottom', 'left', 'top', 'right']
+
+                function direction(e){
+                    const width = el.offsetWidth
+                    const height = el.offsetHeight
+
+                    const X = (e.pageX - width/2 - el.getBoundingClientRect().left) * (width < height ? height/width : 1)
+                    const Y = (e.pageY - height/2 - el.getBoundingClientRect().top) * (height < width ? width/height : 1)
+                        
+                    return Math.round((Math.atan2(Y,X) * (180/Math.PI) / 90) + 3) % 4
+                }
+                
+                el.onmouseenter = function(e){
+                    const d = direction(e)
+                    enterEvent(el,directionType[d])
+                }
+                el.onmouseleave = function(e){
+                    const d = direction(e)
+                    leaveEvent(el,directionType[d])
+                }
+            }
+            
+            const targets = Array.prototype.slice.call(ul.getElementsByTagName('li'))
+
+            targets.forEach( item => {
+                mounseDirection(item,{
+                    enterEvent: function(el,direction){
+                        if(!el.children[0]){
+                            const box = document.createElement('div')
+                            box.style.top = divDirection[direction].top
+                            box.style.left = divDirection[direction].left
+                            box.className = 'box'
+                            box.innerHTML = el.innerHTML
+                            el.appendChild(box)
+                        }
+                        el.lastElementChild.style.transition = ''
+                        el.lastElementChild.style.top = divDirection[direction].top
+                        el.lastElementChild.style.left = divDirection[direction].left
+                        setTimeout( () => {
+                            el.lastElementChild.style.transition = 'all .3s'
+                            el.lastElementChild.style.top = 0
+                            el.lastElementChild.style.left = 0
+                        })
+                    },
+                    leaveEvent: function(el,direction){
+                            el.lastElementChild.style.transition = 'all .3s'
+                            el.lastElementChild.style.top = divDirection[direction].top
+                            el.lastElementChild.style.left = divDirection[direction].left
+                    }
+                })
+            })
+            
+            
+
+
+
+
+            // let arr = [1,2,3]
+            // let str = 'abc'
+            
+            // const oLiIndex = Array.prototype.indexOf.call(oLi.parentNode.children, oLi)
+            // // const oLiIndex = Array.from(oLi.parentNode.children).indexOf(oLi)
+            // console.log(oLiIndex)
+            
+
+
+
+
+           
+            
+
+            // const oUl = document.getElementById('ul')
+            // const oIpt = document.getElementById('ipt')
+            // oIpt.focus()
+            // console.log(oUl.__proto__)
+            // function a(){
+            //     oIpt.style.display = oIpt.style.display != 'none' ? 'none' : 'inline-block'
+            // }
+
+            // for(var i = 0;i < oUl.children.length;i ++){
+            //     oUl.children[i].onclick = function(){
+            //         this.style.transition = '1s'
+            //         this.style.opacity = 0
+            //         if(this.mark){
+            //             return
+            //         }
+            //         this.mark = 1
+            //         setTimeout( () => {
+            //             this.parentNode.removeChild(this)
+            //         },1000)
+            //     }
+            // }
+            
+            // oIpt.onkeyup = function(e){
+            //     if(e.keyCode != 13 || this.value == ''){
+            //         return
+            //     }
+            //     const oLi = document.createElement('li')
+            //     oLi.innerHTML = this.value
+            //     oLi.style.opacity = 0
+            //     oUl.appendChild(oLi)
+
+            //     fn(oLi)
+                
+            //     oLi.onclick = function(){
+            //         this.style.transition = '1s'
+            //         this.style.opacity = 0
+            //         if(this.mark){
+            //             return 
+            //         }
+            //         this.mark = 1
+            //         setTimeout( () => {
+            //             this.parentNode.removeChild(this)
+            //         },1000)
+            //     }
+            //     this.value = ''
+            // }
+
+            // function fn(obj){
+            //     let opacityTime = 0
+            //     let timer = setInterval( () => {
+            //         opacityTime += .1
+            //         obj.style.opacity = opacityTime
+            //         opacityTime >= .9 ? (clearInterval(timer),opacityTime = null) : null
+            //     },100)
+            // }
+
+            // const children = Array.from(oUl.children)
+            // const children = Array.prototype.slice.call(oUl.children)
+            // const children = Array.from(oUl.children)
+            // children.forEach(function(item){
+            //     item.onclick = function(){
+            //         alert(this.innerHTML)
+            //     }
+            // })
+                
+            
+            
+            
+
+
+        </script>
+    </body>
+</html>

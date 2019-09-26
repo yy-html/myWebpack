@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:200px;
+				height: 200px;
+				background: #f00;
+			}
+			#box2{
+				width: 100px;
+				background: #ccc;
+				height: 100px;
+			}
+		</style>
+	</head>
+	
+	<!--<template id='a'>
+		<div>
+			son
+		</div>
+	</template>-->
+	<body>
+		<div id='box' onclick='fn()'>
+			<!--father
+			<v-a ref='son'></v-a>-->
+			<!-- <div id='box2' onclick='fn2()'></div> -->
+		</div>
+		<script src='./js/jquery-1.11.3.js'></script>
+		<script src='./js/vue.js'></script>
+		<script>
+
+			// class Fn{
+			// 	constructor(){
+			// 		console.log(new.target === Fn)
+			// 	}
+			// }
+			// var obj = new Fn()
+
+
+
+			class Logger {
+				constructor(){
+					this.a = 'father'
+					this.printName = this.printName.bind(this)
+					// this.prop = 'prop'
+				}
+				printName(name = 'there'){
+					this.print(`Hello ${name}`)
+				}
+				print(text) {
+					console.log(text);
+				}
+				test(){
+					console.log(this)
+				}
+				static statictest(){console.log('static')}
+				
+				// get prop(){
+				// 	// alert('get')
+				// 	return 'prop'
+				// }
+				// set prop(value){
+				// 	// alert('set')
+				// 	console.log('prop not change by' + value)
+				// }
+			}
+			const logger = new Logger();
+			console.log(logger)
+			// logger.printName()
+			// const { printName } = logger;
+			// printName();
+			// logger.prop = 'changeprop'
+			// console.log(logger.prop)
+			
+			class Son extends Logger{
+				constructor(){
+					super()
+					this.sp()
+					this.a = 'son'
+				}
+				sp(){
+					console.log('super',this)
+				}
+			}
+			var son = new Son()
+
+			console.log('son',son)
+
+			Son.statictest()
+
+			class Son2{
+				constructor(){
+					this.a = 'son2'
+				}
+			}
+			var son2 = new Son2()
+			//此处将logger的实例方法添加到了son2中 ...
+			Son2.__proto__ = Logger	//Son2.prototype.constructor.__proto__ = Logger
+			Son2.prototype.__proto__ = Logger.prototype
+			console.log(son2)
+			Son2.statictest()
+
+			//extends继承：1. 继承实例：先把Logger的实例（logger）的属性添加到Son的实例（son）中;
+			//2. 继承原型：Son.prototype.__proto__原本应该指向 Object.prototype, 改为了指向 Logger.prototype, 再指向Object.prototype
+			//3. 继承静态：Son.__proto__ 原本指向Funciton.prototype, 改为指向Logger,再指向Function.prototype, 所以Son（不是son）可以继承Logger的静态方法
+
+			son.test()
+			son2.test()
+
+			function Fn(){
+				var fn = function(){
+					console.log(this)
+				}
+				fn()
+				this.a()
+			}
+
+			
+
+
+
+
+			
+			
+			
+
+			
+
+
+
+
+
+
+
+			
+
+
+
+			
+			
+			// var a = 1
+			// try{
+			// 	if(a==1) throw 'yy'
+			// }catch(e){
+			// 	console.log(e)
+			// }
+
+			// box.addEventListener('click',function(){alert('box')},true)
+			// box2.addEventListener('click',function(){alert('box2')},true)
+
+
+			// console.log(new Error())
+
+			
+			// alert(random())
+			// var addEvent = document.getElementById("addEvent");
+            //         addEvent.addEventListener("click",function(){
+            //             alert("我是addEvent1");
+            //         },false);
+            //         addEvent.addEventListener("click",function(){
+            //             alert("我是addEvent2");
+            //         },false);
+
+            // var addEvent = document.getElementById("on_click"); 
+
+            // on_click.onclick = function() {
+            //     alert("我是click1");
+            // }
+            // on_click.onclick = function() {
+            //     alert("我是click2");
+            // }
+
+
+		
+
+
+
+			
+
+			
+			
+			
+			
+
+			
+
+
+			
+//			var a = {
+//				template: '#a',
+//				data(){
+//					return{
+//						msg2: 'yy2',
+//					}
+//				},
+//				methods:{
+//					fn2(){
+//						
+//					}
+//				},
+//				mounted(){
+//					console.log(this.$parent.msg)
+//				}
+//			}
+//			
+//			var vw = new Vue({
+//				el: '#box',
+//				data:{
+//					msg: 'yy'
+//				},
+//				methods:{
+//					fn(){
+//						
+//					}
+//				},
+//				components:{
+//					'v-a': a
+//				},
+//				mounted(){
+//					console.log(this.$refs.son.msg2)
+//				}
+//			})
+			
+			
+//			$('input')[0].checked = true
+//			console.log($('input')[0].checked)
+			
+//			var t = 0
+//			var obj = [{
+//				a: 1,
+//				b: 2,
+//				c: 3
+//			}]
+//			obj.forEach(function(item,index){
+//				alert(index)
+//			})
+
+//			data(){
+//				return {
+//					msg: ''
+//				}
+//			}
+		</script>
+	</body>
+</html>

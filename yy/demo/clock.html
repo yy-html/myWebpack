@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title></title>
+    </head>
+    <body>
+        <script>
+            fn()
+            function fn(){
+                var today = new Date()
+                var y = today.getFullYear()
+                var h = j(today.getHours())
+                var m = j(today.getMinutes())
+                var s = j(today.getSeconds())
+                var d = today.getDay()
+                var week = ['星期天','星期一','星期二','星期三','星期四','星期五','星期六']
+                document.body.innerHTML = y + ':'+ h+ ':' + m +':'+ s + ':' + week[d]
+            }
+            function j(n){
+				return n < 10 ? '0' + n : n
+            }
+            
+            setInterval(fn,1000)
+
+            var num = -1
+			fn(num)
+			function fn(num){
+				num ++ 
+				console.log(num)
+				if(num < 3){
+					setTimeout(`fn(${num})`,1000)
+				}
+			}
+			
+        </script>
+    </body>
+</html>

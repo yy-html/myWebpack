@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			//封装cookie：1.创建cookie
+			function createCookie(name,value,expires){
+				var cookieText = encodeURIComponent(name) + '=' + encodeURIComponent(value) + ';path=/';
+				if(parseInt(expires)){
+					var date = new Date();
+					date.setDate(date.getDate() + parseInt(expires));
+					cookieText += ';expires=' + date;
+				}
+				document.cookie = cookieText;
+			}
+			createCookie('aa',11,2);
+			createCookie('bb',22,2);
+			createCookie('刘','洋洋',2);
+			// document.cookie = "aa=11; bb=22; %E5%88%98%E6%B4%8B=33";
+			
+			//2.获取cookie：通过name查找value
+			function getCookievalue(name){
+				var cookiename = encodeURIComponent(name);
+				var arr = document.cookie.split('; '); // 分号 + 空格
+				// [aa=11,bb=22,%E5%88%98%E6%B4%8B=33]
+				for(var i = 0,length = arr.length;i < length;i ++){
+					var list = arr[i].split('='); // arr[0] = "aa=11"; 字符串
+					// arr[0].split('=') = list = [aa,11];
+					if(list[0] == cookiename){
+						return decodeURIComponent(list[1]);
+					}
+				}
+			}
+			console.log(getCookievalue('aa')); // console.log(11)
+			
+			//3.删除cookie：覆盖(通过name覆盖)然后使之过期
+			function removeCookie(name){						//⬇️无value值 所以name=; 只能删除设置了路径path的cookie
+				document.cookie = encodeURIComponent(name) + '=;path=/' + ';expries=' + new Date(0);
+			}
+			removeCookie('bb');
+			console.log(document.cookie);
+			
+		</script>
+	</body>
+</html>

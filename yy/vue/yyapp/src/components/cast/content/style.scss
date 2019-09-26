@@ -1,0 +1,11 @@
+@import '@/lib/reset.scss';
+
+ul{
+    li{
+        @include rect(100%,auto);
+        @include padding(0.1rem);
+        img{
+            @include rect(1rem,auto);
+        }
+    }
+}

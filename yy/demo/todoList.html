@@ -1,0 +1,85 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title></title>
+        <meta charset='utf-8'>
+        <style>
+        </style>
+    </head>
+    <body>
+        <input type="text" id='ipt'>
+        <ul id='ul'>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+        </ul>
+        <script>
+            const oUl = document.getElementById('ul')
+            const oIpt = document.getElementById('ipt')
+            console.log(oUl.__proto__)
+
+            for(var i = 0;i < oUl.children.length;i ++){
+                oUl.children[i].onclick = function(){
+                    this.style.transition = '1s'
+                    this.style.opacity = 0
+                    if(this.mark){
+                        return 
+                    }
+                    this.mark = 1
+                    setTimeout( () => {
+                        this.parentNode.removeChild(this)
+                    },1000)
+                }
+            }
+            
+            oIpt.onkeyup = function(e){
+                if(e.keyCode != 13 || this.value == ''){
+                    return
+                }
+                const oLi = document.createElement('li')
+                oLi.innerHTML = this.value
+                oLi.style.opacity = 0
+                oUl.appendChild(oLi)
+
+                fn(oLi)
+                
+                oLi.onclick = function(){
+                    this.style.transition = '1s'
+                    this.style.opacity = 0
+                    if(this.mark){
+                        return 
+                    }
+                    this.mark = 1
+                    setTimeout( () => {
+                        this.parentNode.removeChild(this)
+                    },1000)
+                }
+                this.value = ''
+            }
+
+            function fn(obj){
+                let opacityTime = 0
+                let timer = setInterval( () => {
+                    opacityTime += .1
+                    obj.style.opacity = opacityTime
+                    opacityTime >= .9 ? (clearInterval(timer),opacityTime = null) : null
+                },100)
+            }
+
+            // const children = Array.from(oUl.children)
+            // const children = Array.prototype.slice.call(oUl.children)
+            // const children = Array.from(oUl.children)
+            // children.forEach(function(item){
+            //     item.onclick = function(){
+            //         alert(this.innerHTML)
+            //     }
+            // })
+                
+            
+            
+            
+
+
+        </script>
+    </body>
+</html>

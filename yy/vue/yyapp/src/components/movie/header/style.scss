@@ -1,0 +1,6 @@
+@import '@/lib/reset.scss';
+
+header{
+    @include rect(100%,1.2rem);
+    @include background-color(pink);
+}

@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/user/user",
+    "pages/home/home"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationStyle": "default",
+    "navigationBarBackgroundColor": "#eee",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "Home",
+        "iconPath": "lib/img/1.png",
+        "selectedIconPath": "lib/img/11.png"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "Log",
+        "iconPath": "lib/img/2.png",
+        "selectedIconPath": "lib/img/22.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "User",
+        "iconPath": "lib/img/3.png",
+        "selectedIconPath": "lib/img/33.png"
+      }
+    ],
+    "selectedColor": "pink",
+    "borderStyle": "white"
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}

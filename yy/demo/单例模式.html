@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			div{
+				width:100px;
+				height:100px;
+				border:1px solid #000;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+//			oBtn.onclick = (function(){
+//				var div = null;
+//				return function(){
+//					if(!div){
+//						div = document.createElement('div');
+//						document.documentElement.appendChild(div);
+//					}
+//				}
+			return div;
+//			})()
+			
+			function Fn(){
+				if(!Fn.a){
+					Fn.a = {};
+					div = document.createElement('div');
+					document.documentElement.appendChild(div);
+				}
+				return Fn;
+			}
+			var a = new Fn();
+			var b = new Fn();
+			alert(a === b)
+
+//			class Fn{
+//				constructor(){
+//					this.a = 1;
+//				}
+//			}
+//			var fn = new Fn();
+//			console.log(typeof(new Fn()));
+//			console.log(typeof fn);
+//			console.log(typeof Fn);
+			
+			//字面量方式创建单例模式对象 1.
+			var oBject = {};
+			oBject.n = [];
+			oBject.i = function(){
+				
+			};
+			oBject.a = function(){
+				
+			};
+			
+			//2.
+			var oBject = {
+				n : [],
+				i : function(){
+					
+				},
+				a : function(){
+					
+				}
+				
+			}
+		</script>
+	</body>
+</html>
